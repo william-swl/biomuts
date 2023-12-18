@@ -11,6 +11,8 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+
+library(biomuts)
 ```
 
 # biomuts
@@ -19,39 +21,21 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 
-## Features
-- A template of R package
-- Imported `%>%`
-- `lintr` config
-- `.gitignore` template, `.Rbuildignore`
+## installation
 
-## Use
-- Download and unzip this repository
-- Rename the directory as `newpkg/`
-- In `newpkg/`, use `bash preprocess.sh newpkg` to:
-  - remove `.git/` directory
-  - Remove `.gitignore`, and rename `.gitignore_template` to `.gitignore`
-  - Replace package name from `rpkg.template` to `newpkg`
-- Remove `preprocess.sh`
-- Init a new local git repository, and link to a remote github repository
-- Edit `DESCRIPTION`
-- Assign open source license, for MIT use `usethis::use_mit_license()`
-- Add code of conduct by `usethis::use_code_of_conduct('your@email')`
-- Add github actions
-```r
-usethis::use_github_action("lint")
-usethis::use_tidy_github_actions()
-unlink('.github/workflows/pkgdown.yaml')
+You can install the development version of `biomuts` like so:
+
+``` r
+devtools::install_github("william-swl/biomuts")
 ```
-- Assign package logo by
-```r
-usethis::use_logo("man/figures/logo.png", geometry='480x576')
+
+## utils
+- correct the gaps location to fit codon frames
+```{r utils-DNA_gaps_corr}
+DNA_gaps_corr("AT---G")
 ```
-- Edit `README.Rmd`, and rebuild `README.md` by
-```r
-devtools::build_rmd('README.Rmd')
-```
-- Build website for this package by `pkgdown`, and add github actions
-```r
-usethis::use_github_action("pkgdown")
+
+- translate DNA to AA (gaps allowed)
+```{r utils-dna2aa}
+dna2aa("ATG---AAA")
 ```
