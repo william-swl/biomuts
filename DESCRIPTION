@@ -10,8 +10,11 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports: 
     Biostrings,
+    dplyr,
     IRanges,
-    magrittr
+    magrittr,
+    purrr,
+    XVector
 Suggests: 
     covr,
     testthat (>= 3.0.0)
