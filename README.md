@@ -101,6 +101,50 @@ AAsite_by_DNA(bss, start = 3, end = 9)
 #> 2     1   3    MPK
 ```
 
+### BiologySeqMSA
+
+- a S4 class to operate aligned DNA together with AA sequence set
+
+``` r
+bss <- BiologySeqSet(
+  c("ATGCAGGTAAACCCTACTGAG", "ATGCAGGTTACTGAG", "ATGCAGGTAACTGTG")
+)
+alnbs <- BiologySeqMSA(bss)
+#> use default substitution matrix
+
+alnbs
+#> BiologySeqMSA 
+#>  @consDNA: 21-letter DNAString object
+#> seq: ATGCAGGTA------ACTGAG
+#>  @consAA: 7-letter AAString object
+#> seq: MQV--TE
+#>  @DNA: DNAStringSet object of length 3:
+#>     width seq                                               names               
+#> [1]    21 ATGCAGGTAAACCCTACTGAG                             1
+#> [2]    21 ATGCAGGTT------ACTGAG                             2
+#> [3]    21 ATGCAGGTA------ACTGTG                             3
+#>  @AA:  AAStringSet object of length 3:
+#>     width seq                                               names               
+#> [1]     7 MQVNPTE                                           1
+#> [2]     7 MQV--TE                                           2
+#> [3]     7 MQV--TV                                           3
+
+consDNA(alnbs)
+#> 21-letter DNAString object
+#> seq: ATGCAGGTA------ACTGAG
+
+consDNAfreq(alnbs)
+#>  [1] 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 0.667 0.667 0.667 0.667
+#> [13] 0.667 0.667 0.667 1.000 1.000 1.000 1.000 0.667 1.000
+
+consAA(alnbs)
+#> 7-letter AAString object
+#> seq: MQV--TE
+
+consAAfreq(alnbs)
+#> [1] 1.000 1.000 1.000 0.667 0.667 1.000 0.667
+```
+
 ## utils
 
 - correct the gaps location to fit codon frames

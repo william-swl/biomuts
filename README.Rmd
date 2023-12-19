@@ -78,6 +78,24 @@ DNAsite_by_AA(bss, start = 2, end = 3)
 AAsite_by_DNA(bss, start = 3, end = 9)
 ```
 
+### BiologySeqMSA
+- a S4 class to operate aligned DNA together with AA sequence set
+```{r S4-BiologySeqMSA}
+bss <- BiologySeqSet(
+  c("ATGCAGGTAAACCCTACTGAG", "ATGCAGGTTACTGAG", "ATGCAGGTAACTGTG")
+)
+alnbs <- BiologySeqMSA(bss)
+
+alnbs
+
+consDNA(alnbs)
+
+consDNAfreq(alnbs)
+
+consAA(alnbs)
+
+consAAfreq(alnbs)
+```
 
 ## utils
 - correct the gaps location to fit codon frames

@@ -22,6 +22,8 @@ setClass("BiologySeqSet",
 #' @param corr_gaps see `?DNA_gaps_corr`
 #'
 #' @return BiologySeqSet object
+#'
+#' @include BiologySeq-class.R
 #' @export
 #'
 #' @examples

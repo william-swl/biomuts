@@ -1,6 +1,6 @@
 Package: biomuts
 Title: What the Package Does (One Line, Title Case)
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: 
     person("William", "Song", , "william_swl@163.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
@@ -13,9 +13,17 @@ Imports:
     dplyr,
     IRanges,
     magrittr,
+    msa,
     purrr,
     XVector
 Suggests: 
     covr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Collate: 
+    'BiologySeq-class.R'
+    'BiologySeqSet-class.R'
+    'BiologySeqMSA-class.R'
+    'methods.R'
+    'utils-pipe.R'
+    'utils.R'
