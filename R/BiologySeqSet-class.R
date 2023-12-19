@@ -6,14 +6,14 @@
 #' @export
 #'
 setClass("BiologySeqSet",
-         slots = c(
-           DNA = "DNAStringSet",
-           AA = "AAStringSet"
-         ),
-         prototype = list(
-           DNA = Biostrings::DNAStringSet(),
-           AA = Biostrings::AAStringSet()
-         )
+  slots = c(
+    DNA = "DNAStringSet",
+    AA = "AAStringSet"
+  ),
+  prototype = list(
+    DNA = Biostrings::DNAStringSet(),
+    AA = Biostrings::AAStringSet()
+  )
 )
 
 #' create BiologySeqSet object
@@ -26,22 +26,22 @@ setClass("BiologySeqSet",
 #'
 #' @examples
 #'
-#' bs <- BiologySeqSet(c('ATGAAA---', 'ATG---AAA'))
+#' bss <- BiologySeqSet(c("ATGAAA---", "ATG---AAA"))
 #'
-#' DNA(bs)
+#' DNA(bss)
 #'
-#' AA(bs)
+#' AA(bss)
 #'
-BiologySeqSet <- function(DNA, corr_gaps=FALSE) {
+BiologySeqSet <- function(DNA, corr_gaps = FALSE) {
   no3 <- which(Biostrings::nchar(DNA) %% 3 != 0)
   if (length(no3) > 0) {
-    no3text <- stringr::str_c(no3, collapse=',')
+    no3text <- stringr::str_c(no3, collapse = ",") # nolint
     stop(stringr::str_glue(
       "check sequence {no3text}: nchar(@DNA) is not multiples of 3!"
     ))
   }
 
-  if (corr_gaps==TRUE) {
+  if (corr_gaps == TRUE) {
     DNA <- purrr::map_chr(DNA, DNA_gaps_corr)
   }
   AA <- purrr::map_chr(DNA, dna2aa)
@@ -51,8 +51,9 @@ BiologySeqSet <- function(DNA, corr_gaps=FALSE) {
   }
 
   new("BiologySeqSet",
-      DNA = Biostrings::DNAStringSet(DNA),
-      AA = Biostrings::AAStringSet(AA))
+    DNA = Biostrings::DNAStringSet(DNA),
+    AA = Biostrings::AAStringSet(AA)
+  )
 }
 
 # valid
@@ -60,8 +61,10 @@ setValidity("BiologySeqSet", function(object) {
   no3 <- which(Biostrings::nchar(object@DNA) %% 3 != 0)
 
   if (length(no3) > 0) {
-    no3text <- stringr::str_c(no3, collapse=',')
-    stringr::str_glue("check sequence {no3text}: nchar(@DNA) is not multiples of 3!")
+    no3text <- stringr::str_c(no3, collapse = ",")
+    stringr::str_glue(
+      "check sequence {no3text}: nchar(@DNA) is not multiples of 3!"
+    )
   } else {
     TRUE
   }

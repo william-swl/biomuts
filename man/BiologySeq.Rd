@@ -19,7 +19,7 @@ create BiologySeq object
 }
 \examples{
 
-bs <- BiologySeq('ATGAAA---CCCTTTGGG---')
+bs <- BiologySeq("ATGAAA---CCCTTTGGG---")
 
 DNA(bs)
 

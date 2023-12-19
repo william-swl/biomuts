@@ -6,14 +6,14 @@
 #' @export
 #'
 setClass("BiologySeq",
-         slots = c(
-           DNA = "DNAString",
-           AA = "AAString"
-         ),
-         prototype = list(
-           DNA = Biostrings::DNAString(),
-           AA = Biostrings::AAString()
-         )
+  slots = c(
+    DNA = "DNAString",
+    AA = "AAString"
+  ),
+  prototype = list(
+    DNA = Biostrings::DNAString(),
+    AA = Biostrings::AAString()
+  )
 )
 
 #' create BiologySeq object
@@ -26,22 +26,24 @@ setClass("BiologySeq",
 #'
 #' @examples
 #'
-#' bs <- BiologySeq('ATGAAA---CCCTTTGGG---')
+#' bs <- BiologySeq("ATGAAA---CCCTTTGGG---")
 #'
 #' DNA(bs)
 #'
 #' AA(bs)
 #'
-BiologySeq <- function(DNA, corr_gaps=FALSE) {
-  if (Biostrings::nchar(DNA) %% 3 != 0){
+BiologySeq <- function(DNA, corr_gaps = FALSE) {
+  if (Biostrings::nchar(DNA) %% 3 != 0) {
     stop("nchar(@DNA) is not multiples of 3!")
   }
-  if (corr_gaps==TRUE) {
+  if (corr_gaps == TRUE) {
     DNA <- DNA_gaps_corr(DNA)
   }
   AA <- dna2aa(DNA)
-  new("BiologySeq", DNA = Biostrings::DNAString(DNA),
-      AA = Biostrings::AAString(AA))
+  new("BiologySeq",
+    DNA = Biostrings::DNAString(DNA),
+    AA = Biostrings::AAString(AA)
+  )
 }
 
 # valid
@@ -56,7 +58,8 @@ setValidity("BiologySeq", function(object) {
 # show
 setMethod("show", "BiologySeq", function(object) {
   cat(is(object)[[1]], "\n",
-      " @DNA: ", toString(object@DNA), "\n",
-      " @AA:  ", toString(object@AA), "\n",
-      sep = "")
+    " @DNA: ", toString(object@DNA), "\n",
+    " @AA:  ", toString(object@AA), "\n",
+    sep = ""
+  )
 })

@@ -19,10 +19,10 @@ create BiologySeqSet object
 }
 \examples{
 
-bs <- BiologySeqSet(c('ATGAAA---', 'ATG---AAA'))
+bss <- BiologySeqSet(c("ATGAAA---", "ATG---AAA"))
 
-DNA(bs)
+DNA(bss)
 
-AA(bs)
+AA(bss)
 
 }

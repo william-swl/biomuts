@@ -29,6 +29,56 @@ You can install the development version of `biomuts` like so:
 devtools::install_github("william-swl/biomuts")
 ```
 
+## S4 classes
+
+### BiologySeq
+- a S4 class to operate DNA together with AA sequence
+
+```{r S4-BiologySeq}
+bs <- BiologySeq("ATGAAA---CCCTTTGGG---")
+
+DNA(bs)
+
+AA(bs)
+
+DNA(bs) <- "ATGAAACCCTTTGGG"
+
+bs
+
+DNA(bs)[1:6] <- "A"
+
+bs
+
+# get DNA site by AA site
+DNAsite_by_AA(bs, start = 2, end = 3)
+
+# get AA site by DNA site
+AAsite_by_DNA(bs, start = 1, end = 9)
+```
+
+
+### BiologySeqSet
+- a S4 class to operate DNA together with AA sequence set
+
+```{r S4-BiologySeqSet}
+bss <- BiologySeqSet(c("ATGAAA---", "ATG---AAA"))
+
+DNA(bss)
+
+AA(bss)
+
+DNA(bss) <- c("ATGAAACCC", "ATGCCCAAA")
+
+bss
+
+# get DNA site by AA site
+DNAsite_by_AA(bss, start = 2, end = 3)
+
+# get AA site by DNA site
+AAsite_by_DNA(bss, start = 3, end = 9)
+```
+
+
 ## utils
 - correct the gaps location to fit codon frames
 ```{r utils-DNA_gaps_corr}
