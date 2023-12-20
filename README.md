@@ -104,13 +104,14 @@ AAsite_by_DNA(bss, start = 3, end = 9)
 ### BiologySeqMSA
 
 - a S4 class to operate aligned DNA together with AA sequence set
+- please set `method="ClustalOmega"` if [Muscle is
+  crashed](https://stackoverflow.com/questions/76663781/using-msa-package-in-r-and-it-is-crashing)
 
 ``` r
 bss <- BiologySeqSet(
   c("ATGCAGGTAAACCCTACTGAG", "ATGCAGGTTACTGAG", "ATGCAGGTAACTGTG")
 )
-alnbs <- BiologySeqMSA(bss)
-#> use default substitution matrix
+alnbs <- BiologySeqMSA(bss, method = "Muscle")
 
 alnbs
 #> BiologySeqMSA 
@@ -143,6 +144,83 @@ consAA(alnbs)
 
 consAAfreq(alnbs)
 #> [1] 1.000 1.000 1.000 0.667 0.667 1.000 0.667
+
+aln_params(alnbs)
+#> $method
+#> [1] "MUSCLE 3.8.31  "
+#> 
+#> $gapOpening
+#> [1] 400
+#> 
+#> $gapExtension
+#> [1] 0
+#> 
+#> $maxiters
+#> [1] 16
+#> 
+#> $verbose
+#> [1] FALSE
+#> 
+#> $inputSeqIsFileFlag
+#> [1] FALSE
+#> 
+#> $le
+#> [1] FALSE
+#> 
+#> $sp
+#> [1] FALSE
+#> 
+#> $sv
+#> [1] FALSE
+#> 
+#> $spn
+#> [1] TRUE
+#> 
+#> $brenner
+#> [1] FALSE
+#> 
+#> $diags
+#> [1] FALSE
+#> 
+#> $diags1
+#> [1] FALSE
+#> 
+#> $diags2
+#> [1] FALSE
+#> 
+#> $dimer
+#> [1] FALSE
+#> 
+#> $noanchors
+#> [1] FALSE
+#> 
+#> $nocore
+#> [1] FALSE
+#> 
+#> $profile
+#> [1] FALSE
+#> 
+#> $refine
+#> [1] FALSE
+#> 
+#> $refinew
+#> [1] FALSE
+#> 
+#> $spscore
+#> [1] FALSE
+#> 
+#> $version
+#> [1] FALSE
+```
+
+- if the frequency of letters are the same, show with the priority of
+  `TCGA-`
+
+``` r
+bss <- BiologySeqSet(c("ACC", "ATC", "GTA", "GCA"))
+
+alnbs <- BiologySeqMSA(bss)
+#> using Gonnet
 ```
 
 ## utils

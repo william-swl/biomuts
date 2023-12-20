@@ -34,6 +34,9 @@ setClass("BiologySeqMSA",
 #' @param x BiologySeqSet
 #' @param corr_gaps correct gaps codon frame after MSA, `TRUE` as default.
 #' see `?DNA_gaps_corr`
+#' @param method msa method, `Muscle|ClustalOmega|ClustalW`.
+#' @param order sequences order, `input` to keep input order, `aligned` to use
+#' aligned order
 #'
 #' @return BiologySeqMSA object
 #' @export
@@ -44,10 +47,12 @@ setClass("BiologySeqMSA",
 #'
 #' BiologySeqMSA(bss)
 #'
-BiologySeqMSA <- function(x, corr_gaps = TRUE) {
+BiologySeqMSA <- function(x, corr_gaps = TRUE,
+                          order = "input", method = "ClustalOmega") {
   DNA <- DNA(x)
-  aln <- msa::msa(DNA, type = "dna", order = "input")
+  aln <- msa::msa(DNA, type = "dna", order = order, method = method)
   params <- S4Vectors::params(aln)
+  params <- c(list("method" = aln@version), params)
   alnDNA <- Biostrings::DNAStringSet(aln)
 
   if (corr_gaps == TRUE) {
@@ -58,7 +63,7 @@ BiologySeqMSA <- function(x, corr_gaps = TRUE) {
   alnbs <- BiologySeqSet(alnDNA)
 
   # DNA consensus
-  codes <- c("A", "C", "T", "G", "-")
+  codes <- c("-", "A", "G", "C", "T")
   consmtx <- Biostrings::consensusMatrix(DNA(alnbs))[codes, ]
   consmtx <- round(consmtx / length(DNA(alnbs)), 3)
   cons_dna_freq <- apply(consmtx, 2, max)
@@ -131,3 +136,7 @@ setMethod("consAA", "BiologySeqMSA", function(x) x@consAA)
 setGeneric("consAAfreq", function(x) standardGeneric("consAAfreq"))
 #' @export
 setMethod("consAAfreq", "BiologySeqMSA", function(x) x@consAAfreq)
+
+setGeneric("aln_params", function(x) standardGeneric("aln_params"))
+#' @export
+setMethod("aln_params", "BiologySeqMSA", function(x) x@params)

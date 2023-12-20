@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
 )
 
 library(biomuts)
+library(msa)
 ```
 
 # biomuts
@@ -80,11 +81,13 @@ AAsite_by_DNA(bss, start = 3, end = 9)
 
 ### BiologySeqMSA
 - a S4 class to operate aligned DNA together with AA sequence set
+- please set `method="ClustalOmega"` if [Muscle is crashed](https://stackoverflow.com/questions/76663781/using-msa-package-in-r-and-it-is-crashing)
+
 ```{r S4-BiologySeqMSA}
 bss <- BiologySeqSet(
   c("ATGCAGGTAAACCCTACTGAG", "ATGCAGGTTACTGAG", "ATGCAGGTAACTGTG")
 )
-alnbs <- BiologySeqMSA(bss)
+alnbs <- BiologySeqMSA(bss, method = "Muscle")
 
 alnbs
 
@@ -95,6 +98,16 @@ consDNAfreq(alnbs)
 consAA(alnbs)
 
 consAAfreq(alnbs)
+
+aln_params(alnbs)
+```
+
+- if the frequency of letters are the same, show with the priority of `TCGA-`
+
+```{r S4-BiologySeqMSA-freq}
+bss <- BiologySeqSet(c("ACC", "ATC", "GTA", "GCA"))
+
+alnbs <- BiologySeqMSA(bss)
 ```
 
 ## utils
