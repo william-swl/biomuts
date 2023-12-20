@@ -238,3 +238,24 @@ DNA_gaps_corr("AT---G")
 dna2aa("ATG---AAA")
 #> [1] "M-K"
 ```
+
+- call DNA and AA mutations from two `BiologySeq` objects
+
+``` r
+call_mut(BiologySeq("ATGCCCTTT"), BiologySeq("CTTCCCTTC"))
+#> $DNA
+#>     1     3     9 
+#> "C1A" "T3G" "C9T" 
+#> 
+#> $AA
+#>     1     3 
+#> "L1M" "F3F" 
+#> 
+#> $table
+#> # A tibble: 2 × 9
+#>   codon_start codon_changes ref_nt query_nt site_aa ref_aa query_aa valid
+#>   <chr>       <chr>         <chr>  <chr>    <chr>   <chr>  <chr>    <chr>
+#> 1 1           2             CTT    ATG      1       L      M        TRUE 
+#> 2 7           1             TTC    TTT      3       F      F        TRUE 
+#> # ℹ 1 more variable: silence <chr>
+```

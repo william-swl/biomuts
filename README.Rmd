@@ -120,3 +120,8 @@ DNA_gaps_corr("AT---G")
 ```{r utils-dna2aa}
 dna2aa("ATG---AAA")
 ```
+
+- call DNA and AA mutations from two `BiologySeq` objects
+```{r utils-call_mut}
+call_mut(BiologySeq("ATGCCCTTT"), BiologySeq("CTTCCCTTC"))
+```

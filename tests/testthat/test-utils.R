@@ -12,3 +12,8 @@ test_that("dna2aa", {
   expect_identical(dna2aa(Biostrings::DNAString("ATG---")), "M-")
   expect_error(dna2aa("ATG--"))
 })
+
+
+test_that("dna2aa", {
+  expect_snapshot(call_mut(BiologySeq("ATGCCCTTT"), BiologySeq("CTTCCCTTC")))
+})

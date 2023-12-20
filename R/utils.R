@@ -75,3 +75,81 @@ dna2aa <- function(x) {
   }
   return(toString(AA))
 }
+
+
+#' call DNA and AA mutations from two BiologySeq objects
+#'
+#' @param query BiologySeq
+#' @param ref BiologySeq
+#'
+#' @return list
+#' @export
+#'
+#' @examples
+#'
+#' ref <- BiologySeq("CTTCCCTTC")
+#' query <- BiologySeq("ATGCCCTTT")
+#' call_mut(query, ref)
+#'
+call_mut <- function(query, ref) {
+  if (!is(query, "BiologySeq")) {
+    stop("query must be BiologySeq object!")
+  }
+  if (!is(ref, "BiologySeq")) {
+    stop("ref must be BiologySeq object!")
+  }
+
+  queryDNA <- DNA(query)
+  refDNA <- DNA(ref)
+  queryAA <- AA(query)
+  refAA <- AA(ref)
+
+  mut_idx <- which(as.matrix(queryDNA) != as.matrix(refDNA))
+
+  site_aa <- floor((mut_idx - 1) / 3) + 1
+
+  site_counts <- table(site_aa)
+
+  site_aa <- unique(site_aa)
+
+  # mut str
+  ref_vec <- as.character(as.matrix(refDNA[mut_idx]))
+  query_vec <- as.character(as.matrix(queryDNA[mut_idx]))
+  mut_dna <- stringr::str_c(ref_vec, mut_idx, query_vec, sep = "")
+  names(mut_dna) <- mut_idx
+
+  ref_vec <- as.character(as.matrix(refAA[site_aa]))
+  query_vec <- as.character(as.matrix(queryAA[site_aa]))
+  mut_aa <- stringr::str_c(ref_vec, site_aa, query_vec, sep = "")
+  names(mut_aa) <- site_aa
+
+  # mut table
+  site2mutTable <- function(x) {
+    site_nt <- 3 * (x - 1) + 1
+
+    res <- c(
+      "codon_start" = site_nt,
+      "codon_changes" = unname(site_counts[toString(x)]),
+      "ref_nt" = toString(refDNA[(site_nt):(site_nt + 2)]),
+      "query_nt" = toString(queryDNA[site_nt:(site_nt + 2)]),
+      "site_aa" = x,
+      "ref_aa" = toString(refAA[x]),
+      "query_aa" = toString(queryAA[x])
+    )
+
+    res["valid"] <- res["query_aa"] == dna2aa(res["query_nt"])
+    res["silence"] <- res["ref_aa"] == res["query_aa"]
+
+    return(res)
+  }
+
+  mut_tb <- purrr::map_dfr(site_aa, site2mutTable)
+
+  res <- list(
+    DNA = mut_dna,
+    AA = mut_aa,
+    table = mut_tb
+  )
+
+  return(res)
+}
