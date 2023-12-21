@@ -86,18 +86,11 @@ setMethod("names<-", "BiologyAAmutSet", function(x, value) {
 
 # subsettable
 #' @export
-setMethod("[",
-  signature = signature(
-    x = "BiologyAAmutSet",
-    i = "numeric", j = "missing"
-  ),
-  function(x, i, j = "missing") BiologyAAmutSet(x@muts[i])
-)
+setMethod("[", "BiologyAAmutSet", function(x, i) BiologyAAmutSet(x@muts[i]))
 
 
 #' @export
-setMethod("[[", "BiologyAAmutSet", function(x) x@muts[[i]]
-)
+setMethod("[[", "BiologyAAmutSet", function(x, i) x@muts[[i]])
 
 
 # sort

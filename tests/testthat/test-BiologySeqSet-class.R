@@ -6,6 +6,5 @@ test_that("BiologySeqSet", {
     Biostrings::AAStringSet(c("1" = "M-P", "2" = "M-F"))
   )
 
-  expect_true(is(bss[[1]], 'BiologySeq'))
-
+  expect_true(is(bss[[1]], "BiologySeq"))
 })

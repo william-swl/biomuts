@@ -102,5 +102,3 @@ setMethod("names<-", "BiologySeqSet", function(x, value) {
 
 
 setMethod("length", "BiologySeqSet", function(x) length(x@DNA))
-
-

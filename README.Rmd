@@ -72,6 +72,8 @@ DNA(bss) <- c("ATGAAACCC", "ATGCCCAAA")
 
 bss
 
+bss[[1]]
+
 # get DNA site by AA site
 DNAsite_by_AA(bss, start = 2, end = 3)
 
@@ -90,6 +92,8 @@ bss <- BiologySeqSet(
 alnbs <- BiologySeqMSA(bss)
 
 alnbs
+
+alnbs[[1]]
 
 consDNA(alnbs)
 

@@ -35,10 +35,9 @@ test_that("BiologySeqMSA-1", {
     c(1.000, 1.000, 1.000, 0.667, 0.667, 0.667, 0.667)
   )
 
-  expect_true(is(alnbs[[3]], 'BiologySeq'))
+  expect_true(is(alnbs[[3]], "BiologySeq"))
 
   expect_identical(length(alnbs), as.integer(3))
-
 })
 
 test_that("BiologySeqMSA-2", {

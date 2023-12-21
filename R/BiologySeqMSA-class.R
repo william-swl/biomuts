@@ -23,7 +23,7 @@ setClass("BiologySeqMSA",
   ),
   prototype = list(
     params = list(),
-    consSeq = BiologySeq(''),
+    consSeq = BiologySeq(""),
     consDNA = Biostrings::DNAString(),
     consDNAfreq = c(),
     consAA = Biostrings::AAString(),
@@ -99,7 +99,7 @@ BiologySeqMSA <- function(x, corr_gaps = TRUE,
   cons_seq <- BiologySeq(cons_dna)
 
   if (cons_seq@AA != cons_aa) {
-    warning('AA(consSeq) is not same as consAA')
+    warning("AA(consSeq) is not same as consAA")
   }
 
 
