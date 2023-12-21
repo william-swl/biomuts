@@ -12,4 +12,9 @@ test_that("BiologyAAmut", {
     unique(sort(mut), bysite = TRUE),
     BiologyAAmut(c("D6F", "D123G", "C878C"))
   )
+
+  expect_identical(
+    select_mut(mut, 1, 150),
+    BiologyAAmut(c("D123G", "D6F", "D123G"))
+  )
 })

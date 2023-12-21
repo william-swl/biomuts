@@ -37,7 +37,7 @@ setClass("BiologyAAmut",
 BiologyAAmut <- function(mut) {
   match_mtx <- stringr::str_match(mut, "^\\w(\\d+)\\w$")
   nomatch <- mut[is.na(match_mtx[, 1])]
-  nomatch_text <- stringr::str_c(nomatch, collapse = ", ") #nolint
+  nomatch_text <- stringr::str_c(nomatch, collapse = ", ") # nolint
 
   if (length(nomatch) > 0) {
     stop(stringr::str_glue(
@@ -68,7 +68,6 @@ setMethod("show", "BiologyAAmut", function(object) {
 setMethod("sort", "BiologyAAmut", function(x, decreasing = FALSE) {
   ord <- order(x@site, decreasing = decreasing)
   res <- BiologyAAmut(x@mut[ord])
-  # res <- x
 
   return(res)
 })
@@ -82,6 +81,17 @@ setMethod("unique", "BiologyAAmut", function(x, bysite = FALSE) {
   } else {
     res <- BiologyAAmut(unique(x@mut))
   }
+
+  return(res)
+})
+
+
+# select mutations
+setGeneric("select_mut", function(x, start, end) standardGeneric("select_mut"))
+#' @export
+setMethod("select_mut", "BiologyAAmut", function(x, start, end) {
+  mask <- x@site %in% start:end
+  res <- BiologyAAmut(x@mut[mask])
 
   return(res)
 })

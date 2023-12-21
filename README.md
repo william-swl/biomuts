@@ -239,6 +239,52 @@ mut
 # unique(sort(mut))
 
 # unique(sort(mut), bysite = TRUE)
+
+select_mut(mut, 1, 150)
+#> BiologyAAmut 
+#>  @mut(3): D123G D6F D123G
+```
+
+### BiologyAAmutSet
+
+``` r
+mut_list <- list(
+  mut1 = c("D123G", "D6F", "C878C", "C878T"),
+  mut2 = c("D123G", "D6F"),
+  mut3 = c("C878C", "D123G", "C878T")
+)
+
+muts <- BiologyAAmutSet(mut_list)
+
+muts[1:2]
+#> BiologyAAmutSet 
+#> mut1|(4) D123G,D6F,C878C,C878T
+#> mut2|(2) D123G,D6F
+
+muts[[3]]
+#> BiologyAAmut 
+#>  @mut(3): C878C D123G C878T
+
+select_mut(muts, 1, 130)
+#> BiologyAAmutSet 
+#> mut1|(2) D123G,D6F
+#> mut2|(2) D123G,D6F
+#> mut3|(1) D123G
+
+# sort(mut)
+
+# unique(muts, method = "mut")
+
+# unique(muts, method = "site")
+
+muts2 <- BiologyAAmutSet(list("D12C", "D12C"))
+
+muts2
+#> BiologyAAmutSet 
+#> 1|(1) D12C
+#> 2|(1) D12C
+
+# unique(muts2, method = "term")
 ```
 
 ## utils

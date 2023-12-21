@@ -118,12 +118,45 @@ mut <- BiologyAAmut(c("D123G", "D6F", "C878C", "D123G", "C878T"))
 
 mut
 
-sort(mut)
+# sort(mut)
 
-unique(sort(mut))
+# unique(sort(mut))
 
-unique(sort(mut), bysite = TRUE)
+# unique(sort(mut), bysite = TRUE)
+
+select_mut(mut, 1, 150)
 ```
+
+### BiologyAAmutSet
+
+```{r S4-BiologyAAmutSet}
+mut_list <- list(
+  mut1 = c("D123G", "D6F", "C878C", "C878T"),
+  mut2 = c("D123G", "D6F"),
+  mut3 = c("C878C", "D123G", "C878T")
+)
+
+muts <- BiologyAAmutSet(mut_list)
+
+muts[1:2]
+
+muts[[3]]
+
+select_mut(muts, 1, 130)
+
+# sort(mut)
+
+# unique(muts, method = "mut")
+
+# unique(muts, method = "site")
+
+muts2 <- BiologyAAmutSet(list("D12C", "D12C"))
+
+muts2
+
+# unique(muts2, method = "term")
+```
+
 
 ## utils
 - correct the gaps location to fit codon frames

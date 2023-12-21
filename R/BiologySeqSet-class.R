@@ -3,6 +3,8 @@
 #' @slot DNA DNAStringSet.
 #' @slot AA AAStringSet.
 #'
+#' @include BiologySeq-class.R
+#'
 #' @export
 #'
 setClass("BiologySeqSet",
@@ -23,7 +25,7 @@ setClass("BiologySeqSet",
 #'
 #' @return BiologySeqSet object
 #'
-#' @include BiologySeq-class.R
+
 #' @export
 #'
 #' @examples
