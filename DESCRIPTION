@@ -23,9 +23,9 @@ Config/testthat/edition: 3
 Collate: 
     'BiologyAAmut-class.R'
     'BiologyAAmutSet-class.R'
+    'utils.R'
     'BiologySeq-class.R'
     'BiologySeqSet-class.R'
     'BiologySeqMSA-class.R'
     'methods.R'
     'utils-pipe.R'
-    'utils.R'

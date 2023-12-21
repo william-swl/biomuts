@@ -15,7 +15,7 @@ see \code{?DNA_gaps_corr}}
 \item{order}{sequences order, \code{input} to keep input order, \code{aligned} to use
 aligned order}
 
-\item{method}{msa method, \code{Muscle|ClustalOmega|ClustalW}.}
+\item{method}{msa method, \code{ClustalOmega|Muscle|ClustalW}.}
 }
 \value{
 BiologySeqMSA object

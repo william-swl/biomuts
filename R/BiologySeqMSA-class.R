@@ -15,6 +15,7 @@ setClass("BiologySeqMSA",
   contains = "BiologySeqSet",
   slots = c(
     params = "list",
+    consSeq = "BiologySeq",
     consDNA = "DNAString",
     consDNAfreq = "numeric",
     consAA = "AAString",
@@ -22,6 +23,7 @@ setClass("BiologySeqMSA",
   ),
   prototype = list(
     params = list(),
+    consSeq = BiologySeq(''),
     consDNA = Biostrings::DNAString(),
     consDNAfreq = c(),
     consAA = Biostrings::AAString(),
@@ -34,7 +36,7 @@ setClass("BiologySeqMSA",
 #' @param x BiologySeqSet
 #' @param corr_gaps correct gaps codon frame after MSA, `TRUE` as default.
 #' see `?DNA_gaps_corr`
-#' @param method msa method, `Muscle|ClustalOmega|ClustalW`.
+#' @param method msa method, `ClustalOmega|Muscle|ClustalW`.
 #' @param order sequences order, `input` to keep input order, `aligned` to use
 #' aligned order
 #'
@@ -94,10 +96,17 @@ BiologySeqMSA <- function(x, corr_gaps = TRUE,
     cons_aa[cons_bool[i, ], ] <- codes[i]
   }
 
+  cons_seq <- BiologySeq(cons_dna)
+
+  if (cons_seq@AA != cons_aa) {
+    warning('AA(consSeq) is not same as consAA')
+  }
+
 
   new("BiologySeqMSA",
     alnbs,
     params = params,
+    consSeq = cons_seq,
     consDNA = cons_dna,
     consDNAfreq = cons_dna_freq,
     consAA = cons_aa,
@@ -108,16 +117,22 @@ BiologySeqMSA <- function(x, corr_gaps = TRUE,
 # show
 setMethod("show", "BiologySeqMSA", function(object) {
   cat(is(object)[[1]], "\n")
-  cat(" @consDNA: ")
-  show(object@consDNA)
-  cat(" @consAA: ")
-  show(object@consAA)
+  cat(" @consSeq: ", is(object@consSeq)[[1]], "\n")
+  cat("  @DNA: ", toString(object@consSeq@DNA), "\n")
+  cat("  @AA: ", toString(object@consSeq@AA), "\n")
   cat(" @DNA: ")
   show(object@DNA)
   cat(" @AA:  ")
   show(object@AA)
 })
 
+# subsettable
+#' @export
+setMethod("[[", "BiologySeqMSA", function(x, i) BiologySeq(x@DNA[[i]]))
+
+setGeneric("consSeq", function(x) standardGeneric("consSeq"))
+#' @export
+setMethod("consSeq", "BiologySeqMSA", function(x) x@consSeq)
 
 
 setGeneric("consDNA", function(x) standardGeneric("consDNA"))

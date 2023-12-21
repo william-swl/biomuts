@@ -87,7 +87,7 @@ AAsite_by_DNA(bss, start = 3, end = 9)
 bss <- BiologySeqSet(
   c("ATGCAGGTAAACCCTACTGAG", "ATGCAGGTTACTGAG", "ATGCAGGTAACTGTG")
 )
-alnbs <- BiologySeqMSA(bss, method = "Muscle")
+alnbs <- BiologySeqMSA(bss)
 
 alnbs
 

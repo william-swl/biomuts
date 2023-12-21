@@ -96,10 +96,7 @@ setMethod("[",
 
 
 #' @export
-setMethod("[[",
-  signature =
-    signature(x = "BiologyAAmutSet", i = "numeric", j = "missing"),
-  function(x, i, j = "missing") x@muts[[i]]
+setMethod("[[", "BiologyAAmutSet", function(x) x@muts[[i]]
 )
 
 

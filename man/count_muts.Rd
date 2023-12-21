@@ -16,14 +16,14 @@ tibble
 count AA mutations from \code{BiologyAAmutSet} object
 }
 \examples{
-  mut_list <- list(
-    mut1 = c("D123G", "D6F", "C878C", "C878T"),
-    mut2 = c("D123G", "D6F"),
-    mut3 = c("C878C", "D123G", "C878T")
-  )
+mut_list <- list(
+  mut1 = c("D123G", "D6F", "C878C", "C878T"),
+  mut2 = c("D123G", "D6F"),
+  mut3 = c("C878C", "D123G", "C878T")
+)
 
-  muts <- BiologyAAmutSet(mut_list)
+muts <- BiologyAAmutSet(mut_list)
 
-  count_muts(muts)
+count_muts(muts)
 
 }

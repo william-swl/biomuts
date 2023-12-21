@@ -82,6 +82,13 @@ setMethod("show", "BiologySeqSet", function(object) {
   show(object@AA)
 })
 
+# subsettable
+#' @export
+setMethod("[", "BiologySeqSet", function(x, i) BiologySeqSet(x@DNA[i]))
+#' @export
+setMethod("[[", "BiologySeqSet", function(x, i) BiologySeq(x@DNA[[i]]))
+
+
 # names
 setMethod("names", "BiologySeqSet", function(x) {
   return(names(x@DNA))
@@ -92,3 +99,8 @@ setMethod("names<-", "BiologySeqSet", function(x, value) {
   names(x@AA) <- value
   return(x)
 })
+
+
+setMethod("length", "BiologySeqSet", function(x) length(x@DNA))
+
+

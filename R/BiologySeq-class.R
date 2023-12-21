@@ -3,6 +3,8 @@
 #' @slot DNA DNAString.
 #' @slot AA AAString.
 #'
+#' @include utils.R
+#'
 #' @export
 #'
 setClass("BiologySeq",
