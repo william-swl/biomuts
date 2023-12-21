@@ -39,6 +39,7 @@ setClass("BiologySeqMSA",
 #' @param method msa method, `ClustalOmega|Muscle|ClustalW`.
 #' @param order sequences order, `input` to keep input order, `aligned` to use
 #' aligned order
+#' @param skip_align skip align or not
 #'
 #' @return BiologySeqMSA object
 #' @export
@@ -49,13 +50,23 @@ setClass("BiologySeqMSA",
 #'
 #' BiologySeqMSA(bss)
 #'
-BiologySeqMSA <- function(x, corr_gaps = TRUE,
+BiologySeqMSA <- function(x, corr_gaps = TRUE, skip_align = FALSE,
                           order = "input", method = "ClustalOmega") {
   DNA <- DNA(x)
-  aln <- msa::msa(DNA, type = "dna", order = order, method = method)
-  params <- S4Vectors::params(aln)
-  params <- c(list("method" = aln@version), params)
-  alnDNA <- Biostrings::DNAStringSet(aln)
+
+  if (skip_align == FALSE) {
+    aln <- msa::msa(DNA, type = "dna", order = order, method = method)
+    params <- S4Vectors::params(aln)
+    params <- c(list("method" = aln@version), params)
+
+    alnDNA <- Biostrings::DNAStringSet(aln)
+  } else {
+    alnDNA <- DNA
+    if (any(nchar(alnDNA) != max(nchar(alnDNA)))) {
+      stop("the nchar of sequences should be identical if align skipped")
+    }
+    params <- list("method" = "skip align")
+  }
 
   if (corr_gaps == TRUE) {
     alnDNA <- purrr::map_chr(alnDNA, DNA_gaps_corr)

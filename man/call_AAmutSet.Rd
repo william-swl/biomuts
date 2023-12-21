@@ -25,6 +25,6 @@ alnbs <- BiologySeqMSA(bss)
 
 call_AAmutSet(alnbs)
 
-call_AAmutSet(alnbs, ref=3)
+call_AAmutSet(alnbs, ref = 3)
 
 }

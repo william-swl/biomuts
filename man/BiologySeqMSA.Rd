@@ -4,13 +4,21 @@
 \alias{BiologySeqMSA}
 \title{create BiologySeqMSA object}
 \usage{
-BiologySeqMSA(x, corr_gaps = TRUE, order = "input", method = "ClustalOmega")
+BiologySeqMSA(
+  x,
+  corr_gaps = TRUE,
+  skip_align = FALSE,
+  order = "input",
+  method = "ClustalOmega"
+)
 }
 \arguments{
 \item{x}{BiologySeqSet}
 
 \item{corr_gaps}{correct gaps codon frame after MSA, \code{TRUE} as default.
 see \code{?DNA_gaps_corr}}
+
+\item{skip_align}{skip align or not}
 
 \item{order}{sequences order, \code{input} to keep input order, \code{aligned} to use
 aligned order}

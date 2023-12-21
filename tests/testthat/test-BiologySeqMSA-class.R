@@ -4,6 +4,8 @@ test_that("BiologySeqMSA-1", {
   )
   alnbs <- BiologySeqMSA(bss)
 
+  expect_error(BiologySeqMSA(bss, skip_align = TRUE))
+
   expect_identical(
     AA(alnbs),
     Biostrings::AAStringSet(
