@@ -179,6 +179,19 @@ call_mut(BiologySeq("ATGCCCTTT"), BiologySeq("CTTCCCTTC"))
 ```
 
 - call DNA and AA mutations from two `BiologySeq` objects
+```{r utils-call_AAmutSet}
+bss <- BiologySeqSet(
+  c("ATGCAGGTAAACCCTACTGAG", "ATGCAGGTTACTGAG", "ATGCAGGTAACTGTG")
+)
+alnbs <- BiologySeqMSA(bss)
+
+call_AAmutSet(alnbs)
+
+call_AAmutSet(alnbs, ref = 3)
+```
+
+
+- call DNA and AA mutations from two `BiologySeq` objects
 ```{r utils-count_muts}
 mut_list <- list(
   mut1 = c("D123G", "D6F", "C878C", "C878T"),

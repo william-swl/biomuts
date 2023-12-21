@@ -35,7 +35,11 @@ setClass("BiologyAAmut",
 #' unique(sort(mut), bysite = TRUE)
 #'
 BiologyAAmut <- function(mut) {
-  match_mtx <- stringr::str_match(mut, "^\\w(\\d+)\\w$")
+  aa_alphabeta <- paste(Biostrings::AA_ALPHABET[1:28], collapse = "") #nolint
+  match_mtx <- stringr::str_match(
+    mut,
+    stringr::str_glue("^[{aa_alphabeta}](\\d+)[{aa_alphabeta}]$")
+  )
   nomatch <- mut[is.na(match_mtx[, 1])]
   nomatch_text <- stringr::str_c(nomatch, collapse = ", ") # nolint
 

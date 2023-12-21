@@ -42,6 +42,25 @@
       # i 1 more variable: silence <chr>
       
 
+# call_AAmutSet
+
+    Code
+      call_AAmutSet(alnbs)
+    Output
+      BiologyAAmutSet 
+      1|(3) T4N,-5P,-6T
+      2|(0) 
+      3|(1) E7V
+
+---
+
+    Code
+      call_AAmutSet(alnbs, ref = "3")
+    Output
+      BiologyAAmutSet 
+      1|(4) T4N,-5P,-6T,V7E
+      2|(1) V7E
+
 # count_muts
 
     Code

@@ -26,6 +26,16 @@ test_that("call_mut", {
   expect_snapshot(call_mut(query, ref))
 })
 
+test_that("call_AAmutSet", {
+  bss <- BiologySeqSet(
+    c("ATGCAGGTAAACCCTACTGAG", "ATGCAGGTTACTGAG", "ATGCAGGTAACTGTG")
+  )
+  alnbs <- BiologySeqMSA(bss)
+
+  expect_snapshot(call_AAmutSet(alnbs))
+  expect_snapshot(call_AAmutSet(alnbs, ref = "3"))
+})
+
 
 
 

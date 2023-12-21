@@ -4,12 +4,14 @@
 \alias{call_mut}
 \title{call DNA and AA mutations from two BiologySeq objects}
 \usage{
-call_mut(query, ref)
+call_mut(query, ref, ignore_silence = FALSE)
 }
 \arguments{
 \item{query}{BiologySeq}
 
 \item{ref}{BiologySeq}
+
+\item{ignore_silence}{ignore AA silence mutations or not}
 }
 \value{
 list

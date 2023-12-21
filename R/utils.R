@@ -81,6 +81,7 @@ dna2aa <- function(x) {
 #'
 #' @param query BiologySeq
 #' @param ref BiologySeq
+#' @param ignore_silence ignore AA silence mutations or not
 #'
 #' @return list
 #' @export
@@ -91,7 +92,7 @@ dna2aa <- function(x) {
 #' query <- BiologySeq("ATGCCCTTT")
 #' call_mut(query, ref)
 #'
-call_mut <- function(query, ref) {
+call_mut <- function(query, ref, ignore_silence = FALSE) {
   if (!is(query, "BiologySeq")) {
     stop("query must be BiologySeq object!")
   }
@@ -118,8 +119,16 @@ call_mut <- function(query, ref) {
   mut_dna <- stringr::str_c(ref_vec, mut_idx, query_vec, sep = "")
   names(mut_dna) <- mut_idx
 
+
+
   ref_vec <- as.character(as.matrix(refAA[site_aa]))
   query_vec <- as.character(as.matrix(queryAA[site_aa]))
+  if (ignore_silence == TRUE) {
+    mask <- query_vec != ref_vec
+    ref_vec <- ref_vec[mask]
+    query_vec <- query_vec[mask]
+    site_aa <- site_aa[mask]
+  }
   mut_aa <- stringr::str_c(ref_vec, site_aa, query_vec, sep = "")
   names(mut_aa) <- site_aa
 
@@ -155,6 +164,46 @@ call_mut <- function(query, ref) {
 }
 
 
+#' call AA mutations from BiologySeqMSA object
+#'
+#' @param querys BiologySeqMSA object
+#' @param ref `consensus`, or the name of sequence
+#'
+#' @return BiologyAAmutSet
+#' @export
+#'
+#' @examples
+#' bss <- BiologySeqSet(
+#'   c("ATGCAGGTAAACCCTACTGAG", "ATGCAGGTTACTGAG", "ATGCAGGTAACTGTG")
+#' )
+#' alnbs <- BiologySeqMSA(bss)
+#'
+#' call_AAmutSet(alnbs)
+#'
+#' call_AAmutSet(alnbs, ref = 3)
+#'
+call_AAmutSet <- function(querys, ref = "consensus", rm_ref = TRUE) {
+  if (!is(querys, "BiologySeqMSA")) {
+    stop("querys must be BiologySeqMSA object!")
+  }
+
+  if (ref == "consensus") {
+    ref_ob <- querys@consSeq # nolint
+  } else {
+    ref_ob <- querys[[ref]]
+    if (rm_ref == TRUE) {
+      querys <- querys[-which(names(querys) == ref)]
+    }
+  }
+
+  res <- purrr::map(
+    querys,
+    ~ call_mut(query = .x, ref = ref_ob, ignore_silence = TRUE)$AA
+  )
+  res <- BiologyAAmutSet(res)
+
+  return(res)
+}
 
 
 #' count AA mutations from `BiologyAAmutSet` object
