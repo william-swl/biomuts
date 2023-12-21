@@ -19,8 +19,8 @@ call DNA and AA mutations from two BiologySeq objects
 }
 \examples{
 
-ref <- BiologySeq('CTTCCCTTC')
-query <- BiologySeq('ATGCCCTTT')
+ref <- BiologySeq("CTTCCCTTC")
+query <- BiologySeq("ATGCCCTTT")
 call_mut(query, ref)
 
 }

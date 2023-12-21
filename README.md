@@ -223,6 +223,24 @@ alnbs <- BiologySeqMSA(bss)
 #> using Gonnet
 ```
 
+### BiologyAAmut
+
+- a S4 class to operate AA mutation
+
+``` r
+mut <- BiologyAAmut(c("D123G", "D6F", "C878C", "D123G", "C878T"))
+
+mut
+#> BiologyAAmut 
+#>  @mut(5): D123G D6F C878C D123G C878T
+
+# sort(mut)
+
+# unique(sort(mut))
+
+# unique(sort(mut), bysite = TRUE)
+```
+
 ## utils
 
 - correct the gaps location to fit codon frames
