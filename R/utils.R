@@ -153,3 +153,36 @@ call_mut <- function(query, ref) {
 
   return(res)
 }
+
+
+
+
+#' count AA mutations from `BiologyAAmutSet` object
+#'
+#' @param muts `BiologyAAmutSet` object
+#'
+#' @return tibble
+#' @export
+#'
+#' @examples
+#' mut_list <- list(
+#'   mut1 = c("D123G", "D6F", "C878C", "C878T"),
+#'   mut2 = c("D123G", "D6F"),
+#'   mut3 = c("C878C", "D123G", "C878T")
+#' )
+#'
+#' muts <- BiologyAAmutSet(mut_list)
+#'
+#' count_muts(muts)
+#'
+count_muts <- function(muts) {
+  if (!is(muts, "BiologyAAmutSet")) {
+    stop("muts must be BiologyAAmut object!")
+  }
+  mut_list <- purrr::map(muts@muts, function(x) x@mut)
+  mut_vec <- sort(BiologyAAmut(unique(unlist(mut_list))))@mut
+  count_tb <- mut_list %>% purrr::map_dfr(~ mut_vec %in% .x)
+  res <- count_tb %>% dplyr::mutate(mut_aa = mut_vec, .before = 1)
+
+  return(res)
+}

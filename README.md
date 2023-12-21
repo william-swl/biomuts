@@ -145,7 +145,7 @@ consAA(alnbs)
 consAAfreq(alnbs)
 #> [1] 1.000 1.000 1.000 0.667 0.667 1.000 0.667
 
-aln_params(alnbs)
+aln_params(alnbs)[1:5]
 #> $method
 #> [1] "MUSCLE 3.8.31  "
 #> 
@@ -159,57 +159,6 @@ aln_params(alnbs)
 #> [1] 16
 #> 
 #> $verbose
-#> [1] FALSE
-#> 
-#> $inputSeqIsFileFlag
-#> [1] FALSE
-#> 
-#> $le
-#> [1] FALSE
-#> 
-#> $sp
-#> [1] FALSE
-#> 
-#> $sv
-#> [1] FALSE
-#> 
-#> $spn
-#> [1] TRUE
-#> 
-#> $brenner
-#> [1] FALSE
-#> 
-#> $diags
-#> [1] FALSE
-#> 
-#> $diags1
-#> [1] FALSE
-#> 
-#> $diags2
-#> [1] FALSE
-#> 
-#> $dimer
-#> [1] FALSE
-#> 
-#> $noanchors
-#> [1] FALSE
-#> 
-#> $nocore
-#> [1] FALSE
-#> 
-#> $profile
-#> [1] FALSE
-#> 
-#> $refine
-#> [1] FALSE
-#> 
-#> $refinew
-#> [1] FALSE
-#> 
-#> $spscore
-#> [1] FALSE
-#> 
-#> $version
 #> [1] FALSE
 ```
 
@@ -271,7 +220,7 @@ select_mut(muts, 1, 130)
 #> mut2|(2) D123G,D6F
 #> mut3|(1) D123G
 
-# sort(mut)
+# sort(muts)
 
 # unique(muts, method = "mut")
 
@@ -322,4 +271,25 @@ call_mut(BiologySeq("ATGCCCTTT"), BiologySeq("CTTCCCTTC"))
 #> 1 1           2             CTT    ATG      1       L      M        TRUE 
 #> 2 7           1             TTC    TTT      3       F      F        TRUE 
 #> # ℹ 1 more variable: silence <chr>
+```
+
+- call DNA and AA mutations from two `BiologySeq` objects
+
+``` r
+mut_list <- list(
+  mut1 = c("D123G", "D6F", "C878C", "C878T"),
+  mut2 = c("D123G", "D6F"),
+  mut3 = c("C878C", "D123G", "C878T")
+)
+
+muts <- BiologyAAmutSet(mut_list)
+
+count_muts(muts)
+#> # A tibble: 4 × 4
+#>   mut_aa mut1  mut2  mut3 
+#>   <chr>  <lgl> <lgl> <lgl>
+#> 1 D6F    TRUE  TRUE  FALSE
+#> 2 D123G  TRUE  TRUE  TRUE 
+#> 3 C878C  TRUE  FALSE TRUE 
+#> 4 C878T  TRUE  FALSE TRUE
 ```

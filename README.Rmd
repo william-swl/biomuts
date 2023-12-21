@@ -99,7 +99,7 @@ consAA(alnbs)
 
 consAAfreq(alnbs)
 
-aln_params(alnbs)
+aln_params(alnbs)[1:5]
 ```
 
 - if the frequency of letters are the same, show with the priority of `TCGA-`
@@ -144,7 +144,7 @@ muts[[3]]
 
 select_mut(muts, 1, 130)
 
-# sort(mut)
+# sort(muts)
 
 # unique(muts, method = "mut")
 
@@ -172,4 +172,17 @@ dna2aa("ATG---AAA")
 - call DNA and AA mutations from two `BiologySeq` objects
 ```{r utils-call_mut}
 call_mut(BiologySeq("ATGCCCTTT"), BiologySeq("CTTCCCTTC"))
+```
+
+- call DNA and AA mutations from two `BiologySeq` objects
+```{r utils-count_muts}
+mut_list <- list(
+  mut1 = c("D123G", "D6F", "C878C", "C878T"),
+  mut2 = c("D123G", "D6F"),
+  mut3 = c("C878C", "D123G", "C878T")
+)
+
+muts <- BiologyAAmutSet(mut_list)
+
+count_muts(muts)
 ```
