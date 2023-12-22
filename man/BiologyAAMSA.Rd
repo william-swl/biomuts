@@ -23,7 +23,7 @@ BiologyAAMSA
 create BiologyAAMSA object
 }
 \examples{
-AA <- c('MQVNPTE', 'MQVTE', 'MQVTV')
+AA <- c("MQVNPTE", "MQVTE", "MQVTV")
 
 aln <- BiologyAAMSA(AA)
 

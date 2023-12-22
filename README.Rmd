@@ -111,7 +111,20 @@ aln_params(alnbs)[1:5]
 ```{r S4-BiologySeqMSA-freq}
 bss <- BiologySeqSet(c("ACC", "ATC", "GTA", "GCA"))
 
-alnbs <- BiologySeqMSA(bss, method='ClustalOmega')
+alnbs <- BiologySeqMSA(bss, method = "ClustalOmega")
+```
+
+- call AA mutations from `BiologySeqMSA` object
+
+```{r utils-call_AAmutSet}
+bss <- BiologySeqSet(
+  c("ATGCAGGTAAACCCTACTGAG", "ATGCAGGTTACTGAG", "ATGCAGGTAACTGTG")
+)
+alnbs <- BiologySeqMSA(bss)
+
+call_AAmutSet(alnbs)
+
+call_AAmutSet(alnbs, ref = 3)
 ```
 
 
@@ -120,7 +133,7 @@ alnbs <- BiologySeqMSA(bss, method='ClustalOmega')
 - please set `method="ClustalOmega"` if [Muscle is crashed](https://stackoverflow.com/questions/76663781/using-msa-package-in-r-and-it-is-crashing)
 
 ```{r S4-BiologyAAMSA}
-AA <- c('MQVNPTE', 'MQVTE', 'MQVTV')
+AA <- c("MQVNPTE", "MQVTE", "MQVTV")
 
 aln <- BiologyAAMSA(AA)
 
@@ -131,6 +144,8 @@ consAA(aln)
 consAAfreq(aln)
 
 aln[[2]]
+
+call_AAmutSet(aln)
 ```
 
 ### BiologyAAmut
@@ -187,7 +202,7 @@ muts2
 DNA_gaps_corr("AT---G")
 ```
 
-- translate DNA to AA (gaps allowed)
+- translate DNA to AA (gap allowed)
 ```{r utils-dna2aa}
 dna2aa("ATG---AAA")
 ```
@@ -197,20 +212,14 @@ dna2aa("ATG---AAA")
 call_mut(BiologySeq("ATGCCCTTT"), BiologySeq("CTTCCCTTC"))
 ```
 
-- call DNA and AA mutations from two `BiologySeq` objects
-```{r utils-call_AAmutSet}
-bss <- BiologySeqSet(
-  c("ATGCAGGTAAACCCTACTGAG", "ATGCAGGTTACTGAG", "ATGCAGGTAACTGTG")
-)
-alnbs <- BiologySeqMSA(bss)
-
-call_AAmutSet(alnbs)
-
-call_AAmutSet(alnbs, ref = 3)
+- call AA mutations from two `Biostrings::AAString` objects
+```{r utils-call_AAmut}
+call_AAmut(Biostrings::AAString("MQVNPTE"), Biostrings::AAString("MQVCTTE"))
 ```
 
 
-- call DNA and AA mutations from two `BiologySeq` objects
+- count AA mutations from `BiologyAAmutSet` objects
+
 ```{r utils-count_muts}
 mut_list <- list(
   mut1 = c("D123G", "D6F", "C878C", "C878T"),

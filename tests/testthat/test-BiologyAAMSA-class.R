@@ -1,4 +1,4 @@
-test_that("BiologySeqMSA", {
+test_that("BiologyAAMSA", {
   AA <- c("MQVNPTE", "MQVTE", "MQVTV")
   aln <- BiologyAAMSA(AA)
 
@@ -19,4 +19,6 @@ test_that("BiologySeqMSA", {
   expect_true(is(aln[[2]], "AAString"))
 
   expect_identical(length(aln), as.integer(3))
+
+  expect_snapshot(call_AAmutSet(aln))
 })

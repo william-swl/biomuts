@@ -164,6 +164,39 @@ call_mut <- function(query, ref, ignore_silence = FALSE) {
 }
 
 
+#' call AA mutations from two AAString objects
+#'
+#' @param query Biostrings::AAString
+#' @param ref Biostrings::AAString
+#'
+#' @return vector of AA mutations
+#' @export
+#'
+#' @examples
+#'
+#' call_AAmut(
+#'   Biostrings::AAString("MQVNPTE"),
+#'   Biostrings::AAString("MQVCTTE")
+#' )
+call_AAmut <- function(query, ref) {
+  if (!is(query, "AAString")) {
+    stop("query must be AAString object!")
+  }
+  if (!is(ref, "AAString")) {
+    stop("ref must be AAString object!")
+  }
+
+  site_aa <- which(as.matrix(query) != as.matrix(ref))
+
+  # mut str
+  ref_vec <- as.character(as.matrix(ref[site_aa]))
+  query_vec <- as.character(as.matrix(query[site_aa]))
+  mut_aa <- stringr::str_c(ref_vec, site_aa, query_vec, sep = "")
+
+  return(mut_aa)
+}
+
+
 #' count AA mutations from `BiologyAAmutSet` object
 #'
 #' @param muts `BiologyAAmutSet` object

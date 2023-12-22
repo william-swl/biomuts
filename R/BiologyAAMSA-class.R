@@ -67,9 +67,6 @@ BiologyAAMSA <- function(x, skip_align = FALSE,
     params <- list("method" = "skip align")
   }
 
-
-
-
   # AA consensus
   consmtx <- Biostrings::consensusMatrix(alnAA)
   codes <- rownames(consmtx)
@@ -105,7 +102,14 @@ setMethod("show", "BiologyAAMSA", function(object) {
   show(object@AA)
 })
 
+# names
+setMethod("names", "BiologyAAMSA", function(x) {
+  return(names(x@AA))
+})
+
 # subsettable
+#' @export
+setMethod("[", "BiologyAAMSA", function(x, i) x@AA[i])
 #' @export
 setMethod("[[", "BiologyAAMSA", function(x, i) Biostrings::AAString(x@AA[[i]]))
 
@@ -123,3 +127,33 @@ setMethod("aln_params", "BiologyAAMSA", function(x) x@params)
 
 #' @export
 setMethod("length", "BiologyAAMSA", function(x) length(x@AA))
+
+
+#' call AA mutations from `BiologyAAMSA` object
+#'
+#' @param querys BiologyAAMSA object
+#' @param ref `consensus`, or the name of sequence
+#'
+#' @return `BiologyAAmutSet` object
+#' @export
+setMethod(
+  "call_AAmutSet", "BiologyAAMSA",
+  function(querys, ref = "consensus", rm_ref = TRUE) {
+    if (ref == "consensus") {
+      ref_ob <- querys@consAA # nolint
+    } else {
+      ref_ob <- querys[[ref]]
+      if (rm_ref == TRUE) {
+        querys <- querys[-which(names(querys) == ref)]
+      }
+    }
+
+    res <- purrr::map(
+      querys,
+      ~ call_AAmut(query = .x, ref = ref_ob)
+    )
+    res <- BiologyAAmutSet(res)
+
+    return(res)
+  }
+)

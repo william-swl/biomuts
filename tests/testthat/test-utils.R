@@ -26,6 +26,15 @@ test_that("call_mut", {
   expect_snapshot(call_mut(query, ref))
 })
 
+test_that("call_AAmut", {
+  query <- Biostrings::AAString("MQVNPTE")
+  ref <- Biostrings::AAString("MQVCTTE")
+
+  expect_identical(call_AAmut(query, ref), c("C4N", "T5P"))
+})
+
+
+
 test_that("call_AAmutSet", {
   bss <- BiologySeqSet(
     c("ATGCAGGTAAACCCTACTGAG", "ATGCAGGTTACTGAG", "ATGCAGGTAACTGTG")

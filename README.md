@@ -177,8 +177,28 @@ aln_params(alnbs)[1:5]
 ``` r
 bss <- BiologySeqSet(c("ACC", "ATC", "GTA", "GCA"))
 
-alnbs <- BiologySeqMSA(bss, method='ClustalOmega')
+alnbs <- BiologySeqMSA(bss, method = "ClustalOmega")
 #> using Gonnet
+```
+
+- call AA mutations from `BiologySeqMSA` object
+
+``` r
+bss <- BiologySeqSet(
+  c("ATGCAGGTAAACCCTACTGAG", "ATGCAGGTTACTGAG", "ATGCAGGTAACTGTG")
+)
+alnbs <- BiologySeqMSA(bss)
+
+call_AAmutSet(alnbs)
+#> BiologyAAmutSet 
+#> 1|(2) -4N,-5P
+#> 2|(0) 
+#> 3|(1) E7V
+
+call_AAmutSet(alnbs, ref = 3)
+#> BiologyAAmutSet 
+#> 1|(3) -4N,-5P,V7E
+#> 2|(1) V7E
 ```
 
 ### BiologyAAMSA
@@ -188,7 +208,7 @@ alnbs <- BiologySeqMSA(bss, method='ClustalOmega')
   crashed](https://stackoverflow.com/questions/76663781/using-msa-package-in-r-and-it-is-crashing)
 
 ``` r
-AA <- c('MQVNPTE', 'MQVTE', 'MQVTV')
+AA <- c("MQVNPTE", "MQVTE", "MQVTV")
 
 aln <- BiologyAAMSA(AA)
 
@@ -209,6 +229,12 @@ consAAfreq(aln)
 aln[[2]]
 #> 7-letter AAString object
 #> seq: MQV--TE
+
+call_AAmutSet(aln)
+#> BiologyAAmutSet 
+#> 1|(2) -4N,-5P
+#> 2|(0) 
+#> 3|(1) E7V
 ```
 
 ### BiologyAAmut
@@ -284,7 +310,7 @@ DNA_gaps_corr("AT---G")
 #> [1] "ATG---"
 ```
 
-- translate DNA to AA (gaps allowed)
+- translate DNA to AA (gap allowed)
 
 ``` r
 dna2aa("ATG---AAA")
@@ -312,27 +338,14 @@ call_mut(BiologySeq("ATGCCCTTT"), BiologySeq("CTTCCCTTC"))
 #> # ℹ 1 more variable: silence <chr>
 ```
 
-- call DNA and AA mutations from two `BiologySeq` objects
+- call AA mutations from two `Biostrings::AAString` objects
 
 ``` r
-bss <- BiologySeqSet(
-  c("ATGCAGGTAAACCCTACTGAG", "ATGCAGGTTACTGAG", "ATGCAGGTAACTGTG")
-)
-alnbs <- BiologySeqMSA(bss)
-
-call_AAmutSet(alnbs)
-#> BiologyAAmutSet 
-#> 1|(2) -4N,-5P
-#> 2|(0) 
-#> 3|(1) E7V
-
-call_AAmutSet(alnbs, ref = 3)
-#> BiologyAAmutSet 
-#> 1|(3) -4N,-5P,V7E
-#> 2|(1) V7E
+call_AAmut(Biostrings::AAString("MQVNPTE"), Biostrings::AAString("MQVCTTE"))
+#> [1] "C4N" "T5P"
 ```
 
-- call DNA and AA mutations from two `BiologySeq` objects
+- count AA mutations from `BiologyAAmutSet` objects
 
 ``` r
 mut_list <- list(
