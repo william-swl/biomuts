@@ -117,23 +117,22 @@ bss <- BiologySeqSet(
   c("ATGCAGGTAAACCCTACTGAG", "ATGCAGGTTACTGAG", "ATGCAGGTAACTGTG")
 )
 alnbs <- BiologySeqMSA(bss)
-#> using Gonnet
 
 alnbs
 #> BiologySeqMSA 
 #>  @consSeq:  BiologySeq 
-#>   @DNA:  ATGCAGGTAACT------GAG 
-#>   @AA:  MQVT--E 
+#>   @DNA:  ATGCAGGTA------ACTGAG 
+#>   @AA:  MQV--TE 
 #>  @DNA: DNAStringSet object of length 3:
 #>     width seq                                               names               
 #> [1]    21 ATGCAGGTAAACCCTACTGAG                             1
-#> [2]    21 ATGCAGGTTACT------GAG                             2
-#> [3]    21 ATGCAGGTAACT------GTG                             3
+#> [2]    21 ATGCAGGTT------ACTGAG                             2
+#> [3]    21 ATGCAGGTA------ACTGTG                             3
 #>  @AA:  AAStringSet object of length 3:
 #>     width seq                                               names               
 #> [1]     7 MQVNPTE                                           1
-#> [2]     7 MQVT--E                                           2
-#> [3]     7 MQVT--V                                           3
+#> [2]     7 MQV--TE                                           2
+#> [3]     7 MQV--TV                                           3
 
 alnbs[[1]]
 #> BiologySeq
@@ -142,31 +141,31 @@ alnbs[[1]]
 
 consDNA(alnbs)
 #> 21-letter DNAString object
-#> seq: ATGCAGGTAACT------GAG
+#> seq: ATGCAGGTA------ACTGAG
 
 consDNAfreq(alnbs)
-#>  [1] 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 0.667 1.000 0.667 0.667
-#> [13] 0.667 0.667 0.667 0.667 0.667 0.667 1.000 0.667 1.000
+#>  [1] 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 0.667 0.667 0.667 0.667
+#> [13] 0.667 0.667 0.667 1.000 1.000 1.000 1.000 0.667 1.000
 
 consAA(alnbs)
 #> 7-letter AAString object
-#> seq: MQVT--E
+#> seq: MQV--TE
 
 consAAfreq(alnbs)
-#> [1] 1.000 1.000 1.000 0.667 0.667 0.667 0.667
+#> [1] 1.000 1.000 1.000 0.667 0.667 1.000 0.667
 
 aln_params(alnbs)[1:5]
 #> $method
-#> [1] "ClustalOmega 1.2.0"
+#> [1] "MUSCLE 3.8.31  "
 #> 
 #> $gapOpening
-#> [1] "default"
+#> [1] 400
 #> 
 #> $gapExtension
-#> [1] "default"
+#> [1] 0
 #> 
 #> $maxiters
-#> [1] 0
+#> [1] 16
 #> 
 #> $verbose
 #> [1] FALSE
@@ -178,8 +177,38 @@ aln_params(alnbs)[1:5]
 ``` r
 bss <- BiologySeqSet(c("ACC", "ATC", "GTA", "GCA"))
 
-alnbs <- BiologySeqMSA(bss)
+alnbs <- BiologySeqMSA(bss, method='ClustalOmega')
 #> using Gonnet
+```
+
+### BiologyAAMSA
+
+- a S4 class to operate aligned AA sequence set
+- please set `method="ClustalOmega"` if [Muscle is
+  crashed](https://stackoverflow.com/questions/76663781/using-msa-package-in-r-and-it-is-crashing)
+
+``` r
+AA <- c('MQVNPTE', 'MQVTE', 'MQVTV')
+
+aln <- BiologyAAMSA(AA)
+
+AA(aln)
+#> AAStringSet object of length 3:
+#>     width seq                                               names               
+#> [1]     7 MQVNPTE                                           1
+#> [2]     7 MQV--TE                                           2
+#> [3]     7 MQV--TV                                           3
+
+consAA(aln)
+#> 7-letter AAString object
+#> seq: MQV--TE
+
+consAAfreq(aln)
+#> [1] 1.000 1.000 1.000 0.667 0.667 1.000 0.667
+
+aln[[2]]
+#> 7-letter AAString object
+#> seq: MQV--TE
 ```
 
 ### BiologyAAmut
@@ -290,17 +319,16 @@ bss <- BiologySeqSet(
   c("ATGCAGGTAAACCCTACTGAG", "ATGCAGGTTACTGAG", "ATGCAGGTAACTGTG")
 )
 alnbs <- BiologySeqMSA(bss)
-#> using Gonnet
 
 call_AAmutSet(alnbs)
 #> BiologyAAmutSet 
-#> 1|(3) T4N,-5P,-6T
+#> 1|(2) -4N,-5P
 #> 2|(0) 
 #> 3|(1) E7V
 
 call_AAmutSet(alnbs, ref = 3)
 #> BiologyAAmutSet 
-#> 1|(4) T4N,-5P,-6T,V7E
+#> 1|(3) -4N,-5P,V7E
 #> 2|(1) V7E
 ```
 

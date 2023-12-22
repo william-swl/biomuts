@@ -9,7 +9,7 @@ BiologySeqMSA(
   corr_gaps = TRUE,
   skip_align = FALSE,
   order = "input",
-  method = "ClustalOmega"
+  method = "Muscle"
 )
 }
 \arguments{

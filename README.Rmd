@@ -111,7 +111,26 @@ aln_params(alnbs)[1:5]
 ```{r S4-BiologySeqMSA-freq}
 bss <- BiologySeqSet(c("ACC", "ATC", "GTA", "GCA"))
 
-alnbs <- BiologySeqMSA(bss)
+alnbs <- BiologySeqMSA(bss, method='ClustalOmega')
+```
+
+
+### BiologyAAMSA
+- a S4 class to operate aligned AA sequence set
+- please set `method="ClustalOmega"` if [Muscle is crashed](https://stackoverflow.com/questions/76663781/using-msa-package-in-r-and-it-is-crashing)
+
+```{r S4-BiologyAAMSA}
+AA <- c('MQVNPTE', 'MQVTE', 'MQVTV')
+
+aln <- BiologyAAMSA(AA)
+
+AA(aln)
+
+consAA(aln)
+
+consAAfreq(aln)
+
+aln[[2]]
 ```
 
 ### BiologyAAmut

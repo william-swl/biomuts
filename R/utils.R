@@ -164,48 +164,6 @@ call_mut <- function(query, ref, ignore_silence = FALSE) {
 }
 
 
-#' call AA mutations from BiologySeqMSA object
-#'
-#' @param querys BiologySeqMSA object
-#' @param ref `consensus`, or the name of sequence
-#'
-#' @return BiologyAAmutSet
-#' @export
-#'
-#' @examples
-#' bss <- BiologySeqSet(
-#'   c("ATGCAGGTAAACCCTACTGAG", "ATGCAGGTTACTGAG", "ATGCAGGTAACTGTG")
-#' )
-#' alnbs <- BiologySeqMSA(bss)
-#'
-#' call_AAmutSet(alnbs)
-#'
-#' call_AAmutSet(alnbs, ref = 3)
-#'
-call_AAmutSet <- function(querys, ref = "consensus", rm_ref = TRUE) {
-  if (!is(querys, "BiologySeqMSA")) {
-    stop("querys must be BiologySeqMSA object!")
-  }
-
-  if (ref == "consensus") {
-    ref_ob <- querys@consSeq # nolint
-  } else {
-    ref_ob <- querys[[ref]]
-    if (rm_ref == TRUE) {
-      querys <- querys[-which(names(querys) == ref)]
-    }
-  }
-
-  res <- purrr::map(
-    querys,
-    ~ call_mut(query = .x, ref = ref_ob, ignore_silence = TRUE)$AA
-  )
-  res <- BiologyAAmutSet(res)
-
-  return(res)
-}
-
-
 #' count AA mutations from `BiologyAAmutSet` object
 #'
 #' @param muts `BiologyAAmutSet` object

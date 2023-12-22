@@ -51,7 +51,7 @@ setClass("BiologySeqMSA",
 #' BiologySeqMSA(bss)
 #'
 BiologySeqMSA <- function(x, corr_gaps = TRUE, skip_align = FALSE,
-                          order = "input", method = "ClustalOmega") {
+                          order = "input", method = "Muscle") {
   DNA <- DNA(x)
 
   if (skip_align == FALSE) {
@@ -166,3 +166,39 @@ setMethod("consAAfreq", "BiologySeqMSA", function(x) x@consAAfreq)
 setGeneric("aln_params", function(x) standardGeneric("aln_params"))
 #' @export
 setMethod("aln_params", "BiologySeqMSA", function(x) x@params)
+
+
+
+setGeneric(
+  "call_AAmutSet",
+  function(querys, ...) standardGeneric("call_AAmutSet")
+)
+
+#' call AA mutations from `BiologySeqMSA` object
+#'
+#' @param querys BiologySeqMSA object
+#' @param ref `consensus`, or the name of sequence
+#'
+#' @return `BiologyAAmutSet` object
+#' @export
+setMethod(
+  "call_AAmutSet", "BiologySeqMSA",
+  function(querys, ref = "consensus", rm_ref = TRUE) {
+    if (ref == "consensus") {
+      ref_ob <- querys@consSeq # nolint
+    } else {
+      ref_ob <- querys[[ref]]
+      if (rm_ref == TRUE) {
+        querys <- querys[-which(names(querys) == ref)]
+      }
+    }
+
+    res <- purrr::map(
+      querys,
+      ~ call_mut(query = .x, ref = ref_ob, ignore_silence = TRUE)$AA
+    )
+    res <- BiologyAAmutSet(res)
+
+    return(res)
+  }
+)

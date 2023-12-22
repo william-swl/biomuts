@@ -100,5 +100,44 @@ setMethod("names<-", "BiologySeqSet", function(x, value) {
   return(x)
 })
 
-
+#' @export
 setMethod("length", "BiologySeqSet", function(x) length(x@DNA))
+
+#' @export
+setMethod("DNA", "BiologySeqSet", function(x) x@DNA)
+
+#' @export
+setMethod("AA", "BiologySeqSet", function(x) x@AA)
+
+#' @export
+setMethod("DNA<-", "BiologySeqSet", function(x, value) {
+  x <- BiologySeqSet(DNA = value)
+  return(x)
+})
+
+
+# DNAsite_by_AA
+#' @export
+setMethod("DNAsite_by_AA", "BiologySeqSet", function(x, start, end) {
+  start_nt <- 3 * (start - 1) + 1
+  end_nt <- 3 * (end - 1) + 3
+  res <- XVector::subseq(x@DNA, start = start_nt, end = end_nt) %>%
+    as.data.frame() %>%
+    dplyr::rename(seq_nt = x) %>%
+    dplyr::mutate(start = start_nt, end = end_nt, .before = 1)
+
+  return(res)
+})
+
+# AAsite_by_DNA
+#' @export
+setMethod("AAsite_by_DNA", "BiologySeqSet", function(x, start, end) {
+  start_aa <- floor((start - 1) / 3) + 1
+  end_aa <- floor((end - 1) / 3) + 1
+  res <- XVector::subseq(x@AA, start = start_aa, end = end_aa) %>%
+    as.data.frame() %>%
+    dplyr::rename(seq_aa = 1) %>%
+    dplyr::mutate(start = start_aa, end = end_aa, .before = 1)
+
+  return(res)
+})

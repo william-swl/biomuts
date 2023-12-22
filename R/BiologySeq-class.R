@@ -65,3 +65,60 @@ setMethod("show", "BiologySeq", function(object) {
     sep = ""
   )
 })
+
+
+# get slot
+setGeneric("DNA", function(x) standardGeneric("DNA"))
+#' @export
+setMethod("DNA", "BiologySeq", function(x) x@DNA)
+
+setGeneric("AA", function(x) standardGeneric("AA"))
+#' @export
+setMethod("AA", "BiologySeq", function(x) x@AA)
+
+
+# set slot
+setGeneric("DNA<-", function(x, value) standardGeneric("DNA<-"))
+#' @export
+setMethod("DNA<-", "BiologySeq", function(x, value) {
+  x <- BiologySeq(value)
+  return(x)
+})
+
+
+# DNAsite_by_AA
+setGeneric("DNAsite_by_AA",
+  function(x, start, end) standardGeneric("DNAsite_by_AA"),
+  signature = "x"
+)
+#' @export
+setMethod("DNAsite_by_AA", "BiologySeq", function(x, start, end) {
+  start_nt <- 3 * (start - 1) + 1
+  end_nt <- 3 * (end - 1) + 3
+  res <- XVector::subseq(x@DNA, start = start_nt, end = end_nt) %>%
+    toString() %>%
+    as.data.frame() %>%
+    dplyr::rename(seq_nt = 1) %>%
+    dplyr::mutate(start = start_nt, end = end_nt, .before = 1)
+
+  return(res)
+})
+
+
+# AAsite_by_DNA
+setGeneric("AAsite_by_DNA",
+  function(x, start, end) standardGeneric("AAsite_by_DNA"),
+  signature = "x"
+)
+#' @export
+setMethod("AAsite_by_DNA", "BiologySeq", function(x, start, end) {
+  start_aa <- floor((start - 1) / 3) + 1
+  end_aa <- floor((end - 1) / 3) + 1
+  res <- XVector::subseq(x@AA, start = start_aa, end = end_aa) %>%
+    toString() %>%
+    as.data.frame() %>%
+    dplyr::rename(seq_aa = 1) %>%
+    dplyr::mutate(start = start_aa, end = end_aa, .before = 1)
+
+  return(res)
+})

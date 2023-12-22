@@ -7,34 +7,29 @@ test_that("BiologySeqMSA-1", {
   expect_error(BiologySeqMSA(bss, skip_align = TRUE))
 
   expect_identical(
-    AA(alnbs),
-    Biostrings::AAStringSet(
-      c("1" = "MQVNPTE", "2" = "MQV--TE", "3" = "MQV--TV")
-    )
+    as.character(AA(alnbs)),
+    c("1" = "MQVNPTE", "2" = "MQV--TE", "3" = "MQV--TV")
   )
 
   expect_identical(
-    consDNA(alnbs),
-    Biostrings::DNAString("ATGCAGGTAACT------GAG")
+    toString(consDNA(alnbs)),
+    "ATGCAGGTA------ACTGAG"
   )
 
-  expect_identical(
-    consAA(alnbs),
-    Biostrings::AAString("MQVT--E")
-  )
+  expect_identical(toString(consAA(alnbs)), "MQV--TE")
 
   expect_identical(
     consDNAfreq(alnbs),
     c(
       1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000,
-      1.000, 0.667, 1.000, 0.667, 0.667, 0.667, 0.667,
-      0.667, 0.667, 0.667, 0.667, 1.000, 0.667, 1.000
+      1.000, 0.667, 0.667, 0.667, 0.667, 0.667, 0.667,
+      0.667, 1.000, 1.000, 1.000, 1.000, 0.667, 1.000
     )
   )
 
   expect_identical(
     consAAfreq(alnbs),
-    c(1.000, 1.000, 1.000, 0.667, 0.667, 0.667, 0.667)
+    c(1.000, 1.000, 1.000, 0.667, 0.667, 1.000, 0.667)
   )
 
   expect_true(is(alnbs[[3]], "BiologySeq"))
@@ -49,15 +44,13 @@ test_that("BiologySeqMSA-2", {
       "ATGCAGGTAAACCCTACTGAG", "ATGCAGGTAACTGAC"
     )
   )
-  alnbs <- BiologySeqMSA(bss, order = "aligned")
+  alnbs <- BiologySeqMSA(bss, order = "aligned", method = "ClustalOmega")
 
   expect_identical(
-    AA(alnbs),
-    Biostrings::AAStringSet(
-      c(
-        "3" = "MQVNPTE", "4" = "MQVTD--",
-        "1" = "MQVTV--", "2" = "MQVTV--"
-      )
+    as.character(AA(alnbs)),
+    c(
+      "3" = "MQVNPTE", "4" = "MQVTD--",
+      "1" = "MQVTV--", "2" = "MQVTV--"
     )
   )
 })

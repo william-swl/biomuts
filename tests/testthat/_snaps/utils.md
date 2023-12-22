@@ -48,7 +48,7 @@
       call_AAmutSet(alnbs)
     Output
       BiologyAAmutSet 
-      1|(3) T4N,-5P,-6T
+      1|(2) -4N,-5P
       2|(0) 
       3|(1) E7V
 
@@ -58,7 +58,7 @@
       call_AAmutSet(alnbs, ref = "3")
     Output
       BiologyAAmutSet 
-      1|(4) T4N,-5P,-6T,V7E
+      1|(3) -4N,-5P,V7E
       2|(1) V7E
 
 # count_muts
