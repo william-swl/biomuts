@@ -226,3 +226,50 @@ count_muts <- function(muts) {
 
   return(res)
 }
+
+
+#' amino acid features
+#'
+#' @param x aa
+#' @param raw return feature raw index instead of scaled index
+#'
+#' @return data.frame
+#' @export
+#'
+#' @examples aa_info("C")
+aa_info <- function(x, raw = FALSE) {
+  if (raw == TRUE) {
+    res <- aa_feature_raw[x, ]
+  } else {
+    res <- aa_feature[x, ]
+  }
+
+  return(res)
+}
+
+
+#' compare feature index between AAs
+#'
+#' @param query query aa
+#' @param ref ref aa
+#'
+#' @return data.frame
+#' @export
+#'
+#' @examples compare_aa(c("A", "T"), "C")
+compare_aa <- function(query, ref, raw = FALSE) {
+  if (length(ref) == 1) {
+    ref <- rep(ref, length(query))
+  } else if (length(ref) != length(query)) {
+    stop("length(ref) must be 1 or length(query)")
+  }
+
+  if (raw == TRUE) {
+    res <- aa_feature_raw[ref, ] - aa_feature_raw[query, ]
+  } else {
+    res <- aa_feature[ref, ] - aa_feature[query, ]
+  }
+
+  rownames(res) <- stringr::str_glue("{query}>{ref}")
+  return(res)
+}

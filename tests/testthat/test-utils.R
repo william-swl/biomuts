@@ -46,8 +46,6 @@ test_that("call_AAmutSet", {
 })
 
 
-
-
 test_that("count_muts", {
   mut_list <- list(
     mut1 = c("D123G", "D6F", "C878C", "C878T"),
@@ -58,4 +56,14 @@ test_that("count_muts", {
   muts <- BiologyAAmutSet(mut_list)
 
   expect_snapshot(count_muts(muts))
+})
+
+
+test_that("aa_info", {
+  expect_snapshot(aa_info("C"))
+})
+
+
+test_that("compare_aa", {
+  expect_snapshot(compare_aa(c("A", "T"), "C"))
 })

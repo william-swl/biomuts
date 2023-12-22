@@ -365,3 +365,20 @@ count_muts(muts)
 #> 3 C878C  TRUE  FALSE TRUE 
 #> 4 C878T  TRUE  FALSE TRUE
 ```
+
+- amino acid features
+
+``` r
+aa_info("C")
+#>   hydrophilicity polarity charge volume
+#> C          -0.79    -0.85      0  -0.39
+```
+
+- compare feature index between AAs
+
+``` r
+compare_aa(c("A", "T"), "C")
+#>     hydrophilicity polarity charge volume
+#> A>C          -0.05    -0.64      0   0.23
+#> T>C          -0.10    -0.76      0  -0.10
+```

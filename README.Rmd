@@ -231,3 +231,13 @@ muts <- BiologyAAmutSet(mut_list)
 
 count_muts(muts)
 ```
+
+- amino acid features
+```{r utils-aa_info}
+aa_info("C")
+```
+
+- compare feature index between AAs
+```{r utils-compare_aa}
+compare_aa(c("A", "T"), "C")
+```
