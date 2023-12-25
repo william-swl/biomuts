@@ -201,6 +201,7 @@ call_AAmut <- function(query, ref) {
 #'
 #' @param muts `BiologyAAmutSet` object
 #' @param use_numbering use numbering or not, `FALSE` as default
+#' @param bysite merge the mutations at the same site
 #'
 #' @return tibble
 #' @export
@@ -216,16 +217,31 @@ call_AAmut <- function(query, ref) {
 #'
 #' count_muts(muts)
 #'
-count_muts <- function(muts, use_numbering = FALSE) {
+count_muts <- function(muts, bysite = FALSE, use_numbering = FALSE) {
   if (!is(muts, "BiologyAAmutSet")) {
     stop("muts must be BiologyAAmut object!")
   }
+
+
   mut_list <- purrr::map(muts@muts, function(x) x@mut)
+
+
+  if (bysite == TRUE) {
+    mut_list <- purrr::map(mut_list,
+                           function(x) stringr::str_replace(x, "\\w$", "X"))
+  }
+
   mut_vec <- sort(BiologyAAmut(unique(unlist(mut_list))))@mut
+
   count_tb <- mut_list %>% purrr::map_dfr(~ mut_vec %in% .x)
+
   res <- count_tb %>% dplyr::mutate(mut_aa = mut_vec, .before = 1)
 
   if (use_numbering == TRUE) {
+    if (is.null(muts@numbering)) {
+      stop("use numbering(muts) to assign numbering labels!")
+    }
+
     res <- res %>% dplyr::mutate(
       mut_aa = number_mut(.data[["mut_aa"]], muts@numbering)
     )

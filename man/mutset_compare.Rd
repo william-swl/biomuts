@@ -4,7 +4,14 @@
 \alias{mutset_compare}
 \title{compare two \code{BiologyAAmutSet} objects by Chi-Squared test}
 \usage{
-mutset_compare(x, y, min_count = 2, all = FALSE, use_numbering = FALSE)
+mutset_compare(
+  x,
+  y,
+  min_count = 2,
+  all = FALSE,
+  bysite = FALSE,
+  use_numbering = FALSE
+)
 }
 \arguments{
 \item{x}{BiologyAAmutSet}
@@ -15,6 +22,8 @@ mutset_compare(x, y, min_count = 2, all = FALSE, use_numbering = FALSE)
 
 \item{all}{return all mutations. if \code{FALSE}, only return mutations with
 p < 0.05}
+
+\item{bysite}{merge the mutations at the same site}
 
 \item{use_numbering}{use numbering or not}
 }

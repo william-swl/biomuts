@@ -80,7 +80,7 @@
       1 D6F    TRUE  TRUE  FALSE
       2 D123G  TRUE  TRUE  TRUE 
       3 C878C  TRUE  FALSE TRUE 
-      4 C878T  TRUE  FALSE TRUE 
+      4 C878T  TRUE  TRUE  FALSE
 
 ---
 
@@ -88,12 +88,24 @@
       count_muts(muts, use_numbering = TRUE)
     Output
       # A tibble: 4 x 4
-        mut_aa  mut1  mut2  mut3 
-        <chr>   <lgl> <lgl> <lgl>
-      1 D[6]F   TRUE  TRUE  FALSE
-      2 D[123]G TRUE  TRUE  TRUE 
-      3 C878C   TRUE  FALSE TRUE 
-      4 C878T   TRUE  FALSE TRUE 
+        mut_aa      mut1  mut2  mut3 
+        <chr>       <lgl> <lgl> <lgl>
+      1 D[site6]F   TRUE  TRUE  FALSE
+      2 D[site123]G TRUE  TRUE  TRUE 
+      3 C878C       TRUE  FALSE TRUE 
+      4 C878T       TRUE  TRUE  FALSE
+
+---
+
+    Code
+      count_muts(muts, use_numbering = TRUE, bysite = TRUE)
+    Output
+      # A tibble: 3 x 4
+        mut_aa      mut1  mut2  mut3 
+        <chr>       <lgl> <lgl> <lgl>
+      1 D[site6]X   TRUE  TRUE  FALSE
+      2 D[site123]X TRUE  TRUE  TRUE 
+      3 C878X       TRUE  TRUE  TRUE 
 
 # aa_info
 

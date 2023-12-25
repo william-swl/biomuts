@@ -239,7 +239,13 @@ mut_list <- list(
 
 muts <- BiologyAAmutSet(mut_list)
 
+numbering(muts) <- c("6" = "key1", "123" = "key2")
+
 count_muts(muts)
+
+count_muts(muts, use_numbering = TRUE)
+
+count_muts(muts, use_numbering = TRUE, bysite = TRUE)
 ```
 
 - amino acid features

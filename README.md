@@ -389,6 +389,8 @@ mut_list <- list(
 
 muts <- BiologyAAmutSet(mut_list)
 
+numbering(muts) <- c("6" = "key1", "123" = "key2")
+
 count_muts(muts)
 #> # A tibble: 4 × 4
 #>   mut_aa mut1  mut2  mut3 
@@ -397,6 +399,23 @@ count_muts(muts)
 #> 2 D123G  TRUE  TRUE  TRUE 
 #> 3 C878C  TRUE  FALSE TRUE 
 #> 4 C878T  TRUE  FALSE TRUE
+
+count_muts(muts, use_numbering = TRUE)
+#> # A tibble: 4 × 4
+#>   mut_aa   mut1  mut2  mut3 
+#>   <chr>    <lgl> <lgl> <lgl>
+#> 1 D[key1]F TRUE  TRUE  FALSE
+#> 2 D[key2]G TRUE  TRUE  TRUE 
+#> 3 C878C    TRUE  FALSE TRUE 
+#> 4 C878T    TRUE  FALSE TRUE
+
+count_muts(muts, use_numbering = TRUE, bysite = TRUE)
+#> # A tibble: 3 × 4
+#>   mut_aa   mut1  mut2  mut3 
+#>   <chr>    <lgl> <lgl> <lgl>
+#> 1 D[key1]X TRUE  TRUE  FALSE
+#> 2 D[key2]X TRUE  TRUE  TRUE 
+#> 3 C878X    TRUE  FALSE TRUE
 ```
 
 - amino acid features

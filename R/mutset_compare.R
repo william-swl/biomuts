@@ -6,17 +6,18 @@
 #' p < 0.05
 #' @param use_numbering use numbering or not
 #' @param min_count minimal count of a mutation to perform test
+#' @param bysite merge the mutations at the same site
 #'
 #' @return tibble
 #' @export
 #'
 mutset_compare <- function(x, y, min_count = 2,
-                           all = FALSE, use_numbering = FALSE) {
-  muts_x <- count_muts(x, use_numbering = use_numbering) %>%
+                           all = FALSE, bysite = FALSE, use_numbering = FALSE) {
+  muts_x <- count_muts(x, use_numbering = use_numbering, bysite = bysite) %>%
     tibble::column_to_rownames("mut_aa") %>%
     rowSums()
   muts_x_flt <- muts_x[muts_x > min_count]
-  muts_y <- count_muts(x, use_numbering = use_numbering) %>%
+  muts_y <- count_muts(y, use_numbering = use_numbering, bysite = bysite) %>%
     tibble::column_to_rownames("mut_aa") %>%
     rowSums()
   muts_y_flt <- muts_y[muts_y > min_count]
@@ -26,9 +27,6 @@ mutset_compare <- function(x, y, min_count = 2,
     as.numeric() %>%
     order()
   Vmut <- Vmut[ord]
-
-  print(Vmut)
-
 
   mut_test <- function(m) {
     x_count <- unname(ifelse(is.na(muts_x[m]), 0, muts_x[m]))

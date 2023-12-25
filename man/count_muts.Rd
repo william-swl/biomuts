@@ -4,10 +4,12 @@
 \alias{count_muts}
 \title{count AA mutations from \code{BiologyAAmutSet} object}
 \usage{
-count_muts(muts, use_numbering = FALSE)
+count_muts(muts, bysite = FALSE, use_numbering = FALSE)
 }
 \arguments{
 \item{muts}{\code{BiologyAAmutSet} object}
+
+\item{bysite}{merge the mutations at the same site}
 
 \item{use_numbering}{use numbering or not, \code{FALSE} as default}
 }
