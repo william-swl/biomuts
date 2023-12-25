@@ -198,14 +198,22 @@ alnbs <- BiologySeqMSA(bss)
 
 call_AAmutSet(alnbs)
 #> BiologyAAmutSet 
+#> @muts
 #> 1|(2) -4N,-5P
 #> 2|(0) 
 #> 3|(1) E7V
+#> @numbering
+#>   1   2   3   4   5   6   7 
+#> "1" "2" "3" "4" "5" "6" "7"
 
 call_AAmutSet(alnbs, ref = 3)
 #> BiologyAAmutSet 
+#> @muts
 #> 1|(3) -4N,-5P,V7E
 #> 2|(1) V7E
+#> @numbering
+#>   1   2   3   4   5   6   7 
+#> "1" "2" "3" "4" "5" "6" "7"
 ```
 
 ### BiologyAAMSA
@@ -239,9 +247,13 @@ aln[[2]]
 
 call_AAmutSet(aln)
 #> BiologyAAmutSet 
+#> @muts
 #> 1|(2) -4N,-5P
 #> 2|(0) 
 #> 3|(1) E7V
+#> @numbering
+#>   1   2   3   4   5   6   7 
+#> "1" "2" "3" "4" "5" "6" "7"
 ```
 
 ### BiologyAAmut
@@ -279,8 +291,11 @@ muts <- BiologyAAmutSet(mut_list)
 
 muts[1:2]
 #> BiologyAAmutSet 
+#> @muts
 #> mut1|(4) D123G,D6F,C878C,C878T
 #> mut2|(2) D123G,D6F
+#> @numbering
+#> NULL
 
 muts[[3]]
 #> BiologyAAmut 
@@ -288,13 +303,16 @@ muts[[3]]
 
 select_mut(muts, 1, 130)
 #> BiologyAAmutSet 
+#> @muts
 #> mut1|(2) D123G,D6F
 #> mut2|(2) D123G,D6F
 #> mut3|(1) D123G
+#> @numbering
+#> NULL
 
 numbering(muts) <- c("123" = "site123", "6" = "site6", "87" = "site87")
 
-numberMuts(muts)[[1]]
+number_muts(muts)[[1]]
 #> [1] "D[site123]G" "D[site6]F"   "C878C"       "C878T"
 
 # sort(muts)
@@ -307,8 +325,11 @@ muts2 <- BiologyAAmutSet(list("D12C", "D12C"))
 
 muts2
 #> BiologyAAmutSet 
+#> @muts
 #> 1|(1) D12C
 #> 2|(1) D12C
+#> @numbering
+#> NULL
 
 # unique(muts2, method = "term")
 ```
@@ -393,4 +414,11 @@ compare_aa(c("A", "T"), "C")
 #>     hydrophilicity polarity charge volume
 #> A>C          -0.05    -0.64      0   0.23
 #> T>C          -0.10    -0.76      0  -0.10
+```
+
+- number the mutations
+
+``` r
+number_mut(c("A12T", "C18P"), c("12" = "12", "18" = "18"))
+#> [1] "A[12]T" "C[18]P"
 ```

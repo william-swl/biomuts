@@ -4,7 +4,7 @@
 \alias{count_muts}
 \title{count AA mutations from \code{BiologyAAmutSet} object}
 \usage{
-count_muts(muts)
+count_muts(muts, use_numbering = FALSE)
 }
 \arguments{
 \item{muts}{\code{BiologyAAmutSet} object}

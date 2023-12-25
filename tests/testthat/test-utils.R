@@ -54,8 +54,11 @@ test_that("count_muts", {
   )
 
   muts <- BiologyAAmutSet(mut_list)
+  numbering(muts) <- c("6" = "6", "123" = "123")
 
   expect_snapshot(count_muts(muts))
+
+  expect_snapshot(count_muts(muts, use_numbering = TRUE))
 })
 
 
@@ -66,4 +69,12 @@ test_that("aa_info", {
 
 test_that("compare_aa", {
   expect_snapshot(compare_aa(c("A", "T"), "C"))
+})
+
+
+test_that("number_mut", {
+  expect_identical(
+    number_mut(c("A12T", "C18P"), c("12" = "12", "18" = "18")),
+    c("A[12]T", "C[18]P")
+  )
 })

@@ -190,7 +190,7 @@ select_mut(muts, 1, 130)
 
 numbering(muts) <- c("123" = "site123", "6" = "site6", "87" = "site87")
 
-numberMuts(muts)[[1]]
+number_muts(muts)[[1]]
 
 # sort(muts)
 
@@ -250,4 +250,10 @@ aa_info("C")
 - compare feature index between AAs
 ```{r utils-compare_aa}
 compare_aa(c("A", "T"), "C")
+```
+
+
+- number the mutations
+```{r utils-number_mut}
+number_mut(c("A12T", "C18P"), c("12" = "12", "18" = "18"))
 ```

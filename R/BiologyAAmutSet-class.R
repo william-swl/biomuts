@@ -88,12 +88,13 @@ setMethod("names<-", "BiologyAAmutSet", function(x, value) {
   return(x)
 })
 
-
-
-
 # subsettable
 #' @export
-setMethod("[", "BiologyAAmutSet", function(x, i) BiologyAAmutSet(x@muts[i]))
+setMethod("[", "BiologyAAmutSet", function(x, i) {
+  res <- BiologyAAmutSet(x@muts[i])
+  numbering(res) <- x@numbering
+  return(res)
+})
 
 
 #' @export
@@ -160,31 +161,12 @@ setMethod(
 
 
 # number muts
-setGeneric("numberMuts", function(x) standardGeneric("numberMuts"))
+setGeneric("number_muts", function(x) standardGeneric("number_muts"))
 #' @export
 setMethod(
-  "numberMuts", "BiologyAAmutSet",
+  "number_muts", "BiologyAAmutSet",
   function(x) {
-    numberMut <- function(y, numbering) { # nolint
-      aa_alphabeta <- paste( # nolint
-        Biostrings::AA_ALPHABET[1:28],
-        collapse = ""
-      )
-      aa <- stringr::str_glue("[{aa_alphabeta}]") # nolint
-
-      numbering_name <- names(numbering) # nolint
-      pattern <- stringr::str_glue("^({aa}){numbering_name}({aa})$")
-      replacement <- stringr::str_glue("\\1[{numbering}]\\2")
-
-      names(replacement) <- pattern
-
-      res <- stringr::str_replace_all(y@mut, replacement)
-
-      return(res)
-    }
-
-    res <- x %>% purrr::map(~ numberMut(.x, x@numbering))
-
+    res <- x %>% purrr::map(~ number_mut(.x@mut, x@numbering))
     return(res)
   }
 )

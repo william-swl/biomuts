@@ -61,7 +61,7 @@ test_that("BiologyAAmutSet", {
   numbering(muts) <- c("123" = "site123", "6" = "site6", "87" = "site87")
 
   expect_identical(
-    numberMuts(muts)[[1]],
+    number_muts(muts)[[1]],
     c("D[site123]G", "D[site6]F", "C878C", "C878T")
   )
 })

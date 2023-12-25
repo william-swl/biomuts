@@ -82,6 +82,19 @@
       3 C878C  TRUE  FALSE TRUE 
       4 C878T  TRUE  FALSE TRUE 
 
+---
+
+    Code
+      count_muts(muts, use_numbering = TRUE)
+    Output
+      # A tibble: 4 x 4
+        mut_aa  mut1  mut2  mut3 
+        <chr>   <lgl> <lgl> <lgl>
+      1 D[6]F   TRUE  TRUE  FALSE
+      2 D[123]G TRUE  TRUE  TRUE 
+      3 C878C   TRUE  FALSE TRUE 
+      4 C878T   TRUE  FALSE TRUE 
+
 # aa_info
 
     Code

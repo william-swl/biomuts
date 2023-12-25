@@ -21,6 +21,3 @@ tibble
 \description{
 compare two \code{BiologyAAmutSet} objects by Chi-Squared test
 }
-\examples{
-BiologyAAmutSet(list("D12C", "D12C"))
-}

@@ -8,7 +8,6 @@
 #' @return tibble
 #' @export
 #'
-#' @examples BiologyAAmutSet(list("D12C", "D12C"))
 mutset_compare <- function(x, y, min_count = 2, all_tests = FALSE) {
   muts_x <- count_muts(x) %>%
     tibble::column_to_rownames("mut_aa") %>%

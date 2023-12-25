@@ -215,7 +215,7 @@ call_AAmut <- function(query, ref) {
 #'
 #' count_muts(muts)
 #'
-count_muts <- function(muts) {
+count_muts <- function(muts, use_numbering = FALSE) {
   if (!is(muts, "BiologyAAmutSet")) {
     stop("muts must be BiologyAAmut object!")
   }
@@ -223,6 +223,12 @@ count_muts <- function(muts) {
   mut_vec <- sort(BiologyAAmut(unique(unlist(mut_list))))@mut
   count_tb <- mut_list %>% purrr::map_dfr(~ mut_vec %in% .x)
   res <- count_tb %>% dplyr::mutate(mut_aa = mut_vec, .before = 1)
+
+  if (use_numbering == TRUE) {
+    res <- res %>% dplyr::mutate(
+      mut_aa = number_mut(.data[["mut_aa"]], muts@numbering)
+    )
+  }
 
   return(res)
 }
@@ -271,5 +277,41 @@ compare_aa <- function(query, ref, raw = FALSE) {
   }
 
   rownames(res) <- stringr::str_glue("{query}>{ref}")
+  return(res)
+}
+
+
+
+#' number the mutations
+#'
+#' @param x character vector of mutations
+#' @param numbering vector of numbering
+#'
+#' @return character vector of mutations
+#' @export
+#'
+#' @examples
+#'
+#' number_mut(c("A12T", "C18P"), c("12" = "12", "18" = "18"))
+#'
+number_mut <- function(x, numbering) {
+  aa_alphabeta <- paste( # nolint
+    Biostrings::AA_ALPHABET[1:28],
+    collapse = ""
+  )
+  aa <- stringr::str_glue("[{aa_alphabeta}]") # nolint
+
+  if (is.null(numbering)) {
+    stop("numbering must have integer names")
+  }
+
+  numbering_name <- names(numbering) # nolint
+  pattern <- stringr::str_glue("^({aa}){numbering_name}({aa})$")
+  replacement <- stringr::str_glue("\\1[{numbering}]\\2")
+
+  names(replacement) <- pattern
+
+  res <- stringr::str_replace_all(x, replacement)
+
   return(res)
 }
