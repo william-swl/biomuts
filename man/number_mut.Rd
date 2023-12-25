@@ -19,6 +19,6 @@ number the mutations
 }
 \examples{
 
-number_mut(c('A12T', 'C18P'), c('12'='12', '18'='18'))
+number_mut(c("A12T", "C18P"), c("12" = "12", "18" = "18"))
 
 }

@@ -2,23 +2,33 @@
 #'
 #' @param x BiologyAAmutSet
 #' @param y BiologyAAmutSet
+#' @param all return all mutations. if `FALSE`, only return mutations with
+#' p < 0.05
+#' @param use_numbering use numbering or not
 #' @param min_count minimal count of a mutation to perform test
-#' @param p_threshold 0.05 as default
 #'
 #' @return tibble
 #' @export
 #'
-mutset_compare <- function(x, y, min_count = 2, all_tests = FALSE) {
-  muts_x <- count_muts(x) %>%
+mutset_compare <- function(x, y, min_count = 2,
+                           all = FALSE, use_numbering = FALSE) {
+  muts_x <- count_muts(x, use_numbering = use_numbering) %>%
     tibble::column_to_rownames("mut_aa") %>%
     rowSums()
   muts_x_flt <- muts_x[muts_x > min_count]
-  muts_y <- count_muts(y) %>%
+  muts_y <- count_muts(x, use_numbering = use_numbering) %>%
     tibble::column_to_rownames("mut_aa") %>%
     rowSums()
   muts_y_flt <- muts_y[muts_y > min_count]
 
-  Vmut <- sort(BiologyAAmut(union(names(muts_x_flt), names(muts_y_flt))))@mut
+  Vmut <- union(names(muts_x_flt), names(muts_y_flt))
+  ord <- stringr::str_extract(Vmut, "\\d+") %>%
+    as.numeric() %>%
+    order()
+  Vmut <- Vmut[ord]
+
+  print(Vmut)
+
 
   mut_test <- function(m) {
     x_count <- unname(ifelse(is.na(muts_x[m]), 0, muts_x[m]))
@@ -45,7 +55,7 @@ mutset_compare <- function(x, y, min_count = 2, all_tests = FALSE) {
   all_test <- purrr::map_dfr(Vmut, mut_test) %>%
     dplyr::mutate(mut = Vmut, .before = 1)
 
-  if (all_tests == FALSE) {
+  if (all == FALSE) {
     res <- all_test %>% dplyr::filter(.data[["p"]] < 0.05)
   } else {
     res <- all_test

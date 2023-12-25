@@ -8,6 +8,8 @@ count_muts(muts, use_numbering = FALSE)
 }
 \arguments{
 \item{muts}{\code{BiologyAAmutSet} object}
+
+\item{use_numbering}{use numbering or not, \code{FALSE} as default}
 }
 \value{
 tibble

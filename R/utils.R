@@ -200,6 +200,7 @@ call_AAmut <- function(query, ref) {
 #' count AA mutations from `BiologyAAmutSet` object
 #'
 #' @param muts `BiologyAAmutSet` object
+#' @param use_numbering use numbering or not, `FALSE` as default
 #'
 #' @return tibble
 #' @export
