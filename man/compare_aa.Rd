@@ -18,5 +18,5 @@ data.frame
 compare feature index between AAs
 }
 \examples{
-compare_aa(c('A', 'T'), 'C')
+compare_aa(c("A", "T"), "C")
 }

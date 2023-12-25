@@ -10,10 +10,6 @@ a S4 class to operate aligned DNA together with AA sequence set
 \section{Slots}{
 
 \describe{
-\item{\code{DNA}}{DNAStringSet.}
-
-\item{\code{AA}}{AAStringSet.}
-
 \item{\code{params}}{MSA params}
 
 \item{\code{consDNA}}{consensus DNAString}
@@ -23,5 +19,9 @@ a S4 class to operate aligned DNA together with AA sequence set
 \item{\code{consAA}}{consensus AAString}
 
 \item{\code{consAAfreq}}{AA consensus frequence}
+
+\item{\code{consSeq}}{consensus BiologySeq}
+
+\item{\code{AAnumbering}}{numbering}
 }}
 

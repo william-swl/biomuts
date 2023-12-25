@@ -1,3 +1,5 @@
+setClassUnion("characterOrNULL", members = c("character", "NULL"))
+
 #' a S4 class to operate AA mutation set
 #'
 #' @slot muts list of AA mutations
@@ -8,10 +10,12 @@
 #'
 setClass("BiologyAAmutSet",
   slots = c(
-    muts = "list"
+    muts = "list",
+    numbering = "characterOrNULL"
   ),
   prototype = list(
-    muts = list()
+    muts = list(),
+    numbering = NULL
   )
 )
 
@@ -50,7 +54,8 @@ BiologyAAmutSet <- function(mut_list) {
   }
 
   new("BiologyAAmutSet",
-    muts = res
+    muts = res,
+    numbering = c()
   )
 }
 
@@ -92,6 +97,8 @@ setMethod("[", "BiologyAAmutSet", function(x, i) BiologyAAmutSet(x@muts[i]))
 #' @export
 setMethod("[[", "BiologyAAmutSet", function(x, i) x@muts[[i]])
 
+#' @export
+setMethod("length", "BiologyAAmutSet", function(x) length(x@muts))
 
 # sort
 #' @export
@@ -117,6 +124,12 @@ setMethod("unique", "BiologyAAmutSet", function(x, method = "term") {
   return(res)
 })
 
+# unlist
+setMethod("unlist", "BiologyAAmutSet", function(x) {
+  res <- unname(unlist(purrr::map(x@muts, ~ .x@mut)))
+  return(res)
+})
+
 
 # select mutations
 #' @export
@@ -126,3 +139,50 @@ setMethod("select_mut", "BiologyAAmutSet", function(x, start, end) {
 
   return(res)
 })
+
+
+setGeneric("numbering", function(x, value) standardGeneric("numbering"))
+#' @export
+setMethod("numbering", "BiologyAAmutSet", function(x) x@numbering)
+
+setGeneric("numbering<-", function(x, value) standardGeneric("numbering<-"))
+#' @export
+setMethod(
+  "numbering<-", "BiologyAAmutSet",
+  function(x, value) {
+    x@numbering <- value
+    validObject(x)
+    return(x)
+  }
+)
+
+
+# number muts
+setGeneric("numberMuts", function(x) standardGeneric("numberMuts"))
+#' @export
+setMethod(
+  "numberMuts", "BiologyAAmutSet",
+  function(x) {
+    numberMut <- function(y, numbering) { # nolint
+      aa_alphabeta <- paste( # nolint
+        Biostrings::AA_ALPHABET[1:28],
+        collapse = ""
+      )
+      aa <- stringr::str_glue("[{aa_alphabeta}]") # nolint
+
+      numbering_name <- names(numbering) # nolint
+      pattern <- stringr::str_glue("^({aa}){numbering_name}({aa})$")
+      replacement <- stringr::str_glue("\\1[{numbering}]\\2")
+
+      names(replacement) <- pattern
+
+      res <- stringr::str_replace_all(y@mut, replacement)
+
+      return(res)
+    }
+
+    res <- x %>% purrr::map(~ numberMut(.x, x@numbering))
+
+    return(res)
+  }
+)

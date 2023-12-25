@@ -18,5 +18,5 @@ data.frame
 amino acid features
 }
 \examples{
-aa_info('C')
+aa_info("C")
 }

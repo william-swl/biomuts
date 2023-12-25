@@ -1,12 +1,12 @@
 #' a S4 class to operate aligned DNA together with AA sequence set
 #'
-#' @slot DNA DNAStringSet.
-#' @slot AA AAStringSet.
 #' @slot params MSA params
 #' @slot consDNA consensus DNAString
 #' @slot consDNAfreq DNA consensus frequency
 #' @slot consAA consensus AAString
 #' @slot consAAfreq AA consensus frequence
+#' @slot consSeq consensus BiologySeq
+#' @slot AAnumbering numbering
 #'
 #' @include BiologySeqSet-class.R
 #' @export
@@ -19,7 +19,8 @@ setClass("BiologySeqMSA",
     consDNA = "DNAString",
     consDNAfreq = "numeric",
     consAA = "AAString",
-    consAAfreq = "numeric"
+    consAAfreq = "numeric",
+    AAnumbering = "character"
   ),
   prototype = list(
     params = list(),
@@ -27,9 +28,22 @@ setClass("BiologySeqMSA",
     consDNA = Biostrings::DNAString(),
     consDNAfreq = c(),
     consAA = Biostrings::AAString(),
-    consAAfreq = c()
+    consAAfreq = c(),
+    AAnumbering = c()
   )
 )
+
+setValidity("BiologySeqMSA", function(object) {
+  consAA_length <- Biostrings::nchar(object@consAA)
+
+  if (any(duplicated(object@AAnumbering))) {
+    "the numbering label must be unique!"
+  } else if (length(object@AAnumbering) != consAA_length) {
+    "the numbering label length must be identical with sequence AA!"
+  } else {
+    TRUE
+  }
+})
 
 #' create BiologySeqMSA object
 #'
@@ -113,6 +127,10 @@ BiologySeqMSA <- function(x, corr_gaps = TRUE, skip_align = FALSE,
     warning("AA(consSeq) is not same as consAA")
   }
 
+  consAA_length <- Biostrings::nchar(cons_aa)
+
+  consAA_numbering <- as.character(seq_len(consAA_length))
+  names(consAA_numbering) <- as.character(seq_len(consAA_length))
 
   new("BiologySeqMSA",
     alnbs,
@@ -121,7 +139,8 @@ BiologySeqMSA <- function(x, corr_gaps = TRUE, skip_align = FALSE,
     consDNA = cons_dna,
     consDNAfreq = cons_dna_freq,
     consAA = cons_aa,
-    consAAfreq = cons_aa_freq
+    consAAfreq = cons_aa_freq,
+    AAnumbering = consAA_numbering
   )
 }
 
@@ -135,6 +154,8 @@ setMethod("show", "BiologySeqMSA", function(object) {
   show(object@DNA)
   cat(" @AA:  ")
   show(object@AA)
+  cat(" @AAnumbering:  ")
+  show(object@AAnumbering)
 })
 
 # subsettable
@@ -168,6 +189,28 @@ setGeneric("aln_params", function(x) standardGeneric("aln_params"))
 setMethod("aln_params", "BiologySeqMSA", function(x) x@params)
 
 
+setGeneric("AAnumbering", function(x, value) standardGeneric("AAnumbering"))
+#' @export
+setMethod("AAnumbering", "BiologySeqMSA", function(x) x@AAnumbering)
+
+
+setGeneric("AAnumbering<-", function(x, value) standardGeneric("AAnumbering<-"))
+#' @export
+setMethod(
+  "AAnumbering<-", "BiologySeqMSA",
+  function(x, value) {
+    value <- as.character(value)
+    consAA_length <- Biostrings::nchar(x@consAA)
+    if (is.null(value)) {
+      names(value) <- seq_len(consAA_length)
+    }
+    x@AAnumbering <- value
+    validObject(x)
+
+    return(x)
+  }
+)
+
 
 setGeneric(
   "call_AAmutSet",
@@ -184,6 +227,8 @@ setGeneric(
 setMethod(
   "call_AAmutSet", "BiologySeqMSA",
   function(querys, ref = "consensus", rm_ref = TRUE) {
+    AAnumbering <- querys@AAnumbering
+
     if (ref == "consensus") {
       ref_ob <- querys@consSeq # nolint
     } else {
@@ -198,6 +243,7 @@ setMethod(
       ~ call_mut(query = .x, ref = ref_ob, ignore_silence = TRUE)$AA
     )
     res <- BiologyAAmutSet(res)
+    numbering(res) <- AAnumbering
 
     return(res)
   }

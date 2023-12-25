@@ -35,6 +35,15 @@ test_that("BiologySeqMSA-1", {
   expect_true(is(alnbs[[3]], "BiologySeq"))
 
   expect_identical(length(alnbs), as.integer(3))
+
+  expect_error(AAnumbering(alnbs) <- c("A", "B", "C"))
+
+  AAnumbering(alnbs) <- c("A", "B", "C", "D", "E", "F", "G")
+
+  expect_identical(
+    AAnumbering(alnbs),
+    c("A", "B", "C", "D", "E", "F", "G")
+  )
 })
 
 test_that("BiologySeqMSA-2", {

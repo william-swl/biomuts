@@ -14,6 +14,11 @@ You can install the development version of `biomuts` like so:
 devtools::install_github("william-swl/biomuts")
 ```
 
+And use `biomuts` like so:
+
+    library(biomuts)
+    library(msa)
+
 ## S4 classes
 
 ### BiologySeq
@@ -133,6 +138,8 @@ alnbs
 #> [1]     7 MQVNPTE                                           1
 #> [2]     7 MQV--TE                                           2
 #> [3]     7 MQV--TV                                           3
+#>  @AAnumbering:    1   2   3   4   5   6   7 
+#> "1" "2" "3" "4" "5" "6" "7"
 
 alnbs[[1]]
 #> BiologySeq
@@ -284,6 +291,11 @@ select_mut(muts, 1, 130)
 #> mut1|(2) D123G,D6F
 #> mut2|(2) D123G,D6F
 #> mut3|(1) D123G
+
+numbering(muts) <- c("123" = "site123", "6" = "site6", "87" = "site87")
+
+numberMuts(muts)[[1]]
+#> [1] "D[site123]G" "D[site6]F"   "C878C"       "C878T"
 
 # sort(muts)
 

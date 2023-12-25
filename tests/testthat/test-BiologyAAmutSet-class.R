@@ -49,4 +49,19 @@ test_that("BiologyAAmutSet", {
 
   names(muts)[3] <- "3"
   expect_identical(names(muts), c("mut1", "mut2", "3"))
+
+  expect_identical(
+    unlist(muts),
+    c(
+      "D123G", "D6F", "C878C", "C878T", "D123G",
+      "D6F", "C878C", "D123G", "C878T"
+    )
+  )
+
+  numbering(muts) <- c("123" = "site123", "6" = "site6", "87" = "site87")
+
+  expect_identical(
+    numberMuts(muts)[[1]],
+    c("D[site123]G", "D[site6]F", "C878C", "C878T")
+  )
 })

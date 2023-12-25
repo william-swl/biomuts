@@ -11,7 +11,6 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
-
 library(biomuts)
 library(msa)
 ```
@@ -28,6 +27,13 @@ You can install the development version of `biomuts` like so:
 
 ``` r
 devtools::install_github("william-swl/biomuts")
+```
+
+And use `biomuts` like so:
+
+```
+library(biomuts)
+library(msa)
 ```
 
 ## S4 classes
@@ -181,6 +187,10 @@ muts[1:2]
 muts[[3]]
 
 select_mut(muts, 1, 130)
+
+numbering(muts) <- c("123" = "site123", "6" = "site6", "87" = "site87")
+
+numberMuts(muts)[[1]]
 
 # sort(muts)
 

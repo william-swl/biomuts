@@ -61,7 +61,7 @@ BiologyAAMSA <- function(x, skip_align = FALSE,
     alnAA <- Biostrings::AAStringSet(aln)
   } else {
     alnAA <- x
-    if (any(nchar(alnAA) != max(nchar(alnAA)))) {
+    if (any(Biostrings::nchar(alnAA) != max(Biostrings::nchar(alnAA)))) {
       stop("the nchar of sequences should be identical if align skipped")
     }
     params <- list("method" = "skip align")
