@@ -4,6 +4,7 @@
 #' @slot params MSA params
 #' @slot consAA consensus AAString
 #' @slot consAAfreq AA consensus frequence
+#' @slot AAnumbering numbering
 #'
 #' @include BiologySeqMSA-class.R
 #'
@@ -14,15 +15,30 @@ setClass("BiologyAAMSA",
     AA = "AAStringSet",
     params = "list",
     consAA = "AAString",
-    consAAfreq = "numeric"
+    consAAfreq = "numeric",
+    AAnumbering = "character"
   ),
   prototype = list(
     AA = Biostrings::AAStringSet(),
     params = list(),
     consAA = Biostrings::AAString(),
-    consAAfreq = c()
+    consAAfreq = c(),
+    AAnumbering = c()
   )
 )
+
+setValidity("BiologyAAMSA", function(object) {
+  consAA_length <- Biostrings::nchar(object@consAA)
+
+  if (any(duplicated(object@AAnumbering))) {
+    "the numbering label must be unique!"
+  } else if (length(object@AAnumbering) != consAA_length) {
+    "the numbering label length must be identical with sequence AA!"
+  } else {
+    TRUE
+  }
+})
+
 
 
 #' create BiologyAAMSA object
@@ -84,12 +100,17 @@ BiologyAAMSA <- function(x, skip_align = FALSE,
     cons_aa[cons_bool[i, ], ] <- codes[i]
   }
 
+  consAA_length <- Biostrings::nchar(cons_aa)
+
+  consAA_numbering <- as.character(seq_len(consAA_length))
+  names(consAA_numbering) <- as.character(seq_len(consAA_length))
 
   new("BiologyAAMSA",
     AA = alnAA,
     params = params,
     consAA = cons_aa,
-    consAAfreq = cons_aa_freq
+    consAAfreq = cons_aa_freq,
+    AAnumbering = consAA_numbering
   )
 }
 
@@ -100,6 +121,8 @@ setMethod("show", "BiologyAAMSA", function(object) {
   cat(" @consAA: ", toString(object@consAA), "\n")
   cat(" @AA: \n")
   show(object@AA)
+  cat(" @AAnumbering:  ")
+  show(object@AAnumbering)
 })
 
 # names
@@ -128,6 +151,25 @@ setMethod("aln_params", "BiologyAAMSA", function(x) x@params)
 #' @export
 setMethod("length", "BiologyAAMSA", function(x) length(x@AA))
 
+#' @export
+setMethod("AAnumbering", "BiologyAAMSA", function(x) x@AAnumbering)
+
+#' @export
+setMethod(
+  "AAnumbering<-", "BiologyAAMSA",
+  function(x, value) {
+    value <- as.character(value)
+    consAA_length <- Biostrings::nchar(x@consAA)
+    if (is.null(names(value))) {
+      names(value) <- seq_len(consAA_length)
+    }
+    x@AAnumbering <- value
+    validObject(x)
+
+    return(x)
+  }
+)
+
 
 #' call AA mutations from `BiologyAAMSA` object
 #'
@@ -139,6 +181,8 @@ setMethod("length", "BiologyAAMSA", function(x) length(x@AA))
 setMethod(
   "call_AAmutSet", "BiologyAAMSA",
   function(querys, ref = "consensus", rm_ref = TRUE) {
+    AAnumbering <- querys@AAnumbering
+
     if (ref == "consensus") {
       ref_ob <- querys@consAA # nolint
     } else {
@@ -153,6 +197,7 @@ setMethod(
       ~ call_AAmut(query = .x, ref = ref_ob)
     )
     res <- BiologyAAmutSet(res)
+    numbering(res) <- AAnumbering
 
     return(res)
   }

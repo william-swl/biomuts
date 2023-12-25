@@ -48,9 +48,13 @@
       call_AAmutSet(alnbs)
     Output
       BiologyAAmutSet 
+      @muts
       1|(2) -4N,-5P
       2|(0) 
       3|(1) E7V
+      @numbering
+        1   2   3   4   5   6   7 
+      "1" "2" "3" "4" "5" "6" "7" 
 
 ---
 
@@ -58,8 +62,12 @@
       call_AAmutSet(alnbs, ref = "3")
     Output
       BiologyAAmutSet 
+      @muts
       1|(3) -4N,-5P,V7E
       2|(1) V7E
+      @numbering
+        1   2   3   4   5   6   7 
+      "1" "2" "3" "4" "5" "6" "7" 
 
 # count_muts
 

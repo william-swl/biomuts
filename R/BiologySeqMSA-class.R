@@ -201,7 +201,7 @@ setMethod(
   function(x, value) {
     value <- as.character(value)
     consAA_length <- Biostrings::nchar(x@consAA)
-    if (is.null(value)) {
+    if (is.null(names(value))) {
       names(value) <- seq_len(consAA_length)
     }
     x@AAnumbering <- value

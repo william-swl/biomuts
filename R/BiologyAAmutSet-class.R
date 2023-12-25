@@ -60,10 +60,10 @@ BiologyAAmutSet <- function(mut_list) {
 }
 
 
-# show
 #' @export
 setMethod("show", "BiologyAAmutSet", function(object) {
   cat(is(object)[[1]], "\n")
+  cat("@muts\n")
   for (n in names(object@muts)) {
     n_text <- stringr::str_trunc(n, 9, side = "right", ellipsis = "...")
     n_text <- stringr::str_pad(
@@ -74,6 +74,8 @@ setMethod("show", "BiologyAAmutSet", function(object) {
     mut_text <- paste(mut_vec, collapse = ",")
     cat(n_text, "|(", length(mut_vec), ") ", mut_text, "\n", sep = "")
   }
+  cat("@numbering\n")
+  show(object@numbering)
 })
 
 # names

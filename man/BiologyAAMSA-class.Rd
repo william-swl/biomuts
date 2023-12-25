@@ -17,5 +17,7 @@ a S4 class to operate aligned AA sequence set
 \item{\code{consAA}}{consensus AAString}
 
 \item{\code{consAAfreq}}{AA consensus frequence}
+
+\item{\code{AAnumbering}}{numbering}
 }}
 

@@ -42,7 +42,18 @@ test_that("BiologySeqMSA-1", {
 
   expect_identical(
     AAnumbering(alnbs),
-    c("A", "B", "C", "D", "E", "F", "G")
+    c(
+      "1" = "A", "2" = "B", "3" = "C", "4" = "D",
+      "5" = "E", "6" = "F", "7" = "G"
+    )
+  )
+
+  expect_identical(
+    numbering(call_AAmutSet(alnbs)),
+    c(
+      "1" = "A", "2" = "B", "3" = "C", "4" = "D",
+      "5" = "E", "6" = "F", "7" = "G"
+    )
   )
 })
 
