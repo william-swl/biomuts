@@ -201,7 +201,7 @@ call_AAmut <- function(query, ref) {
 #'
 #' @param muts `BiologyAAmutSet` object
 #' @param use_numbering use numbering or not, `FALSE` as default
-#' @param bysite merge the mutations at the same site
+#' @param bysite merge the mutations(including deletion) at the same site
 #'
 #' @return tibble
 #' @export
@@ -227,8 +227,10 @@ count_muts <- function(muts, bysite = FALSE, use_numbering = FALSE) {
 
 
   if (bysite == TRUE) {
-    mut_list <- purrr::map(mut_list,
-                           function(x) stringr::str_replace(x, "\\w$", "X"))
+    mut_list <- purrr::map(
+      mut_list,
+      function(x) stringr::str_replace(x, "\\w$", "X")
+    )
   }
 
   mut_vec <- sort(BiologyAAmut(unique(unlist(mut_list))))@mut
@@ -288,12 +290,12 @@ compare_aa <- function(query, ref, raw = FALSE) {
   }
 
   if (raw == TRUE) {
-    res <- aa_feature_raw[ref, ] - aa_feature_raw[query, ]
+    res <- aa_feature_raw[query, ] - aa_feature_raw[ref, ]
   } else {
-    res <- aa_feature[ref, ] - aa_feature[query, ]
+    res <- aa_feature[query, ] - aa_feature[ref, ]
   }
 
-  rownames(res) <- stringr::str_glue("{query}>{ref}")
+  rownames(res) <- stringr::str_glue("{ref}>{query}")
   return(res)
 }
 

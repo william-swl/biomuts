@@ -51,7 +51,11 @@ mutset_compare <- function(x, y, min_count = 2,
   }
 
   all_test <- purrr::map_dfr(Vmut, mut_test) %>%
-    dplyr::mutate(mut = Vmut, .before = 1)
+    dplyr::mutate(mut = Vmut, .before = 1) %>%
+    dplyr::mutate(
+      fold_change =
+        round(.data[["x_ratio"]] / .data[["y_ratio"]], 3)
+    )
 
   if (all == FALSE) {
     res <- all_test %>% dplyr::filter(.data[["p"]] < 0.05)

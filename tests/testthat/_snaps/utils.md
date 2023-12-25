@@ -121,6 +121,6 @@
       compare_aa(c("A", "T"), "C")
     Output
           hydrophilicity polarity charge volume
-      A>C          -0.05    -0.64      0   0.23
-      T>C          -0.10    -0.76      0  -0.10
+      C>A           0.05     0.64      0  -0.23
+      C>T           0.10     0.76      0   0.10
 

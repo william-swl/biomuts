@@ -261,5 +261,5 @@ compare_aa(c("A", "T"), "C")
 
 - number the mutations
 ```{r utils-number_mut}
-number_mut(c("A12T", "C18P"), c("12" = "12", "18" = "18"))
+number_mut(c("A12T", "C18P"), c("12" = "key1", "18" = "key2"))
 ```

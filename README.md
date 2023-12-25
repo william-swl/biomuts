@@ -431,13 +431,13 @@ aa_info("C")
 ``` r
 compare_aa(c("A", "T"), "C")
 #>     hydrophilicity polarity charge volume
-#> A>C          -0.05    -0.64      0   0.23
-#> T>C          -0.10    -0.76      0  -0.10
+#> C>A           0.05     0.64      0  -0.23
+#> C>T           0.10     0.76      0   0.10
 ```
 
 - number the mutations
 
 ``` r
-number_mut(c("A12T", "C18P"), c("12" = "12", "18" = "18"))
-#> [1] "A[12]T" "C[18]P"
+number_mut(c("A12T", "C18P"), c("12" = "key1", "18" = "key2"))
+#> [1] "A[key1]T" "C[key2]P"
 ```
